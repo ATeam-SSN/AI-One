@@ -12,7 +12,7 @@ class _attendence_screenState extends State<attendence_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Test"),
+        title: Text("AiOne"),
       ),
     );
   }
