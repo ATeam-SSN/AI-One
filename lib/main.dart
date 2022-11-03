@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ssn_qos/main_menu.dart';
+import 'package:ssn_qos/screens/dashboard.dart';
+import 'package:ssn_qos/screens/test_page.dart';
+import 'package:ssn_qos/timetable_upload.dart';
+import 'package:ssn_qos/screens/test_stateless.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
-      home: const attendence_screen(),
+      home: screen3(),
     );
   }
 }
