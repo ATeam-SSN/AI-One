@@ -2,56 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// List<StaggeredGridTile> _cardTile = <StaggeredGridTile>[
-//   StaggeredGridTile.count(
-//     mainAxisCellCount: 2,
-//     crossAxisCellCount: 2,
-//     child: Text("hello"),
-//   ),
-//   StaggeredGridTile.count(
-//     mainAxisCellCount: 2,
-//     crossAxisCellCount: 3,
-//     child: Text("hello"),
-//   ),
-//   StaggeredGridTile.count(
-//     mainAxisCellCount: 4,
-//     crossAxisCellCount: 3,
-//     child: Text("hello"),
-//   ),
-//   StaggeredGridTile.count(
-//     mainAxisCellCount: 2,
-//     crossAxisCellCount: 2,
-//     child: Text("hello"),
-//   ),
-// ];
-
-class BackGroundTile extends StatelessWidget {
-  final Color backgroundColor;
-  final IconData icondata;
-
-  BackGroundTile({required this.backgroundColor, required this.icondata});
+class home_screeen extends StatefulWidget {
+  const home_screeen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: backgroundColor,
-      child: Icon(icondata, color: Colors.white),
-    );
-  }
+  State<home_screeen> createState() => _home_screeenState();
 }
 
-//List of Cards with color and icon
-List<Widget> _listTile = <Widget>[
-  BackGroundTile(backgroundColor: Colors.red, icondata: Icons.home),
-  BackGroundTile(backgroundColor: Colors.orange, icondata: Icons.ac_unit),
-  BackGroundTile(backgroundColor: Colors.pink, icondata: Icons.landscape),
-  BackGroundTile(backgroundColor: Colors.green, icondata: Icons.portrait),
-];
-
-class screen3 extends StatelessWidget {
+class _home_screeenState extends State<home_screeen> {
+  var number = 0;
+  @override
   List<String> imageList = [
     'https://cdn.pixabay.com/photo/2019/03/15/09/49/girl-4056684_960_720.jpg',
     'https://cdn.pixabay.com/photo/2020/12/15/16/25/clock-5834193__340.jpg',
@@ -72,7 +35,10 @@ class screen3 extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           Container(
-            height: 70,
+            height: 45,
+          ),
+          Container(
+            height: 55,
             width: MediaQuery.of(context).size.width,
             child: ButtonBar(
               mainAxisSize: MainAxisSize.max,
@@ -101,7 +67,7 @@ class screen3 extends StatelessWidget {
                     width: 50,
                     child: FlatButton(
                         onPressed: null,
-                        child: Image.asset('assets/images/avatar_white.png'))),
+                        child: Image.asset('assets/images/search_icon.png'))),
               ],
             ),
           ),
@@ -113,31 +79,59 @@ class screen3 extends StatelessWidget {
                 color: Color.fromARGB(255, 246, 248, 246),
                 borderRadius: BorderRadius.all(Radius.circular(43.0))),
             // color: Colors.transparent,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 12,
-                  itemCount: imageList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: imageList[index],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                  staggeredTileBuilder: (index) {
-                    return StaggeredTile.count(1, index.isEven ? 1.2 : 1.8);
-                  }),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  height: 5,
+                ),
+                Text(
+                  "Greetings, Aadhithya!!",
+                  style: TextStyle(fontSize: 35),
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    // color: Colors.amber,
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                  ),
+                  // padding: EdgeInsets.symmetric(vertical: 15),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 30,
+                    height: MediaQuery.of(context).size.height,
+                    child: StaggeredGridView.countBuilder(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 12,
+                        itemCount: imageList.length,
+                        itemBuilder: (context, index) {
+                          return Material(
+                            color: Colors.white.withOpacity(0.0),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            child: InkWell(
+                              splashColor: Colors.black26,
+                              onTap: () {
+                                print(number);
+                                number += 1;
+                              },
+                              // child: Center(
+                              //   child: Text("hello"),
+                              // ),
+                              child: FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                image: imageList[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
+                        staggeredTileBuilder: (index) {
+                          return StaggeredTile.count(
+                              1, index.isEven ? 1.2 : 1.8);
+                        }),
+                  ),
+                ),
+              ],
             ),
           ),
         ]),
