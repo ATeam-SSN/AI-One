@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ssn_qos/custom_widgets.dart';
 
 class attendence_screen extends StatefulWidget {
@@ -45,14 +46,33 @@ class _attendence_screenState extends State<attendence_screen> {
   Widget _appBar() {
     return Container(
       color: Colors.blue,
+
       //padding: AppTheme.padding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           RotatedBox(
             quarterTurns: 4,
             child: _icon(Icons.menu, color: Color.fromARGB(135, 4, 4, 4)),
           ),
+          Container(
+              alignment: Alignment.center,
+              width: 30,
+              height: 40,
+              child: Text("data"))
+          //  RotatedBox(
+
+          // quarterTurns: 4,
+          // child: SvgPicture.asset('assets/images/vector.svg'),
+          // ),
+          // ),
+          // Container(
+          //   width: 30,
+          //   height: 40,
+          //   alignment: Alignment.center,
+          //   child: Text("hello"),
+          // )
           // ClipRRect(
           //   borderRadius: BorderRadius.all(Radius.circular(13)),
           //   child: Container(
@@ -117,33 +137,33 @@ class _attendence_screenState extends State<attendence_screen> {
         ),
         body: Column(
           children: [
-            Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const ListTile(
-                    leading: Icon(Icons.menu_book),
-                    title: Text('Attendence inga'),
-                    subtitle: Text('Attendence related data and management'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        child: const Text('ADD TIMETABLE'),
-                        onPressed: () {/* ... */},
-                      ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        child: const Text('SET TIMING'),
-                        onPressed: () {/* ... */},
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Card(
+            //   child: Column(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       const ListTile(
+            //         leading: Icon(Icons.menu_book),
+            //         title: Text('Attendence inga'),
+            //         subtitle: Text('Attendence related data and management'),
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.end,
+            //         children: [
+            //           TextButton(
+            //             child: const Text('ADD TIMETABLE'),
+            //             onPressed: () {/* ... */},
+            //           ),
+            //           const SizedBox(width: 8),
+            //           TextButton(
+            //             child: const Text('SET TIMING'),
+            //             onPressed: () {/* ... */},
+            //           ),
+            //           const SizedBox(width: 8),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ));
   }
