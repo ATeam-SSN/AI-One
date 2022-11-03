@@ -95,6 +95,7 @@ class _attendence_screenState extends State<attendence_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+ dashboard_test
         key: _key,
         appBar: AppBar(
           leading: _appBar(),
@@ -166,5 +167,11 @@ class _attendence_screenState extends State<attendence_screen> {
             // ),
           ],
         ));
+
+      appBar: AppBar(
+        title: Text("AiOne"),
+      ),
+    );
+main
   }
 }
