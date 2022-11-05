@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ssn_qos/custom_widgets.dart';
 
 class attendence_screen extends StatefulWidget {
   const attendence_screen({super.key});

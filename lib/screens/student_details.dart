@@ -1,27 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:ssn_qos/screens/main_menu.dart';
+import 'student.dart';
+import 'dart:async';
 
-class student {
-  var fname, lname, dept;
-  student(this.fname, this.lname, this.dept);
+class getStudentDetails extends StatefulWidget {
+  const getStudentDetails({super.key});
+
+  @override
+  State<getStudentDetails> createState() => _getStudentDetailsState();
 }
 
-class StudentDetails {
-  var username;
-  StudentDetails(this.username);
-  FirebaseFirestore? _instance;
-  late student allDetails;
-  List<dynamic> _studentDetails = [];
-  List<dynamic> get_details() {
-    return _studentDetails;
+class _getStudentDetailsState extends State<getStudentDetails> {
+  String id = "aadhithya2010747";
+  var _referStudent = FirebaseFirestore.instance.collection('users');
+  late Stream<QuerySnapshot> _streamData;
+  late student StudDetails;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _streamData = _referStudent.snapshots();
+    Timer(
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => home_screeen(
+                    // allData: StudDetails,
+                    ))));
   }
 
-  Future<void> get_detailsFromFirebase() async {
-    _instance = FirebaseFirestore.instance;
-    CollectionReference studentDetails = _instance!.collection('users');
-
-    DocumentSnapshot snapshot = await studentDetails.doc(username).get();
-    var data = snapshot.data() as Map;
-    allDetails = student(data['fname'], data['lname'], data['Dept']);
-    print(allDetails);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: StreamBuilder<QuerySnapshot>(
+            stream: _streamData,
+            builder: (context, snapshot) {
+              return (snapshot.connectionState == ConnectionState.active)
+                  ? SizedBox(
+                      child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var data = snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
+                            StudDetails.fname = data['fname'];
+                            StudDetails.lname = data['lname'];
+                            StudDetails.dept = data['Dept'];
+                            return Text(" ");
+                          }),
+                    )
+                  : Container(
+                      color: Colors.amber,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+            }));
   }
 }
