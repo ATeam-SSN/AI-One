@@ -10,10 +10,10 @@ class attendance_tile_screen extends StatefulWidget {
 class _attendance_tile_screenState extends State<attendance_tile_screen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: top_bar_color,
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: top_bar_color,
+        body: SingleChildScrollView(
           child: Column(children: [
             Container(
               height: 55,

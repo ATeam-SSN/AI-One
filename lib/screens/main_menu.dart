@@ -6,7 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 
-const primaryColor = Color(0xFF685BFF);
+const primaryColor = Colors.white;
 const canvasColor = Color.fromARGB(255, 28, 165, 46);
 // const scaffoldBackgroundColor = top_bar_color;
 const accentCanvasColor = Color(0xFF3E3E61);
@@ -166,8 +166,9 @@ class _home_screeenState extends State<home_screeen> {
         ],
       ),
       backgroundColor: top_bar_color,
-      body: SizedBox(
-        height: 500,
+      body:
+          // height: 500,
+          SingleChildScrollView(
         child: Column(children: [
           Container(
             height: 55,
@@ -207,80 +208,84 @@ class _home_screeenState extends State<home_screeen> {
               ],
             ),
           ),
-          Container(
-            alignment: Alignment.topCenter,
-            height: MediaQuery.of(context).size.height + 42,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 246, 248, 246),
-                borderRadius: BorderRadius.all(Radius.circular(43.0))),
-            // color: Colors.transparent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  height: 15,
-                ),
-                Text(
-                  style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width * 0.08),
-                  "Greetings, Aadhithya!!",
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
+          SingleChildScrollView(
+            child: Container(
+              alignment: Alignment.topCenter,
+              // height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 246, 248, 246),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(43))),
+              // color: Colors.transparent,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: 15,
                   ),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 30,
-                    height: MediaQuery.of(context).size.height,
-                    child: StaggeredGridView.countBuilder(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 12,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Material(
-                            elevation: 4,
-                            color: Colors.white,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            child: InkWell(
-                              splashColor: Colors.black26,
-                              child: Center(
-                                  child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(caption[index]),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  tiles[index],
-                                ],
-                              )),
-                              onTap: () {
-                                print(number);
-                                number += 1;
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            nextScreens[index]));
+                  Text(
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width * 0.08),
+                    "Greetings, Aadhithya!!",
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                    ),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 30,
+                      height: MediaQuery.of(context).size.height,
+                      child: StaggeredGridView.countBuilder(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 12,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return Material(
+                              elevation: 4,
+                              color: Colors.white,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              child: InkWell(
+                                splashColor: Colors.black26,
+                                child: Center(
+                                    child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(caption[index]),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    tiles[index],
+                                  ],
+                                )),
+                                onTap: () {
+                                  print(number);
+                                  number += 1;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              nextScreens[index]));
 
-                                // get_detailsFromFirebase('aadh');
-                              },
-                            ),
-                          );
-                        },
-                        staggeredTileBuilder: (index) {
-                          return StaggeredTile.count(
-                              1, index.isEven ? 1.2 : 1.8);
-                        }),
+                                  // get_detailsFromFirebase('aadh');
+                                },
+                              ),
+                            );
+                          },
+                          staggeredTileBuilder: (index) {
+                            return StaggeredTile.count(
+                                1, index.isEven ? 1.2 : 1.8);
+                          }),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ]),

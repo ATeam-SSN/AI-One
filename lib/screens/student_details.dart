@@ -16,7 +16,7 @@ class _getStudentDetailsState extends State<getStudentDetails> {
   String id = "aadhithya2010747";
   var _referStudent = FirebaseFirestore.instance.collection('users');
   late Stream<QuerySnapshot> _streamData;
-  late student StudDetails;
+  late Student StudDetails;
   @override
   void initState() {
     // TODO: implement initState
@@ -48,7 +48,7 @@ class _getStudentDetailsState extends State<getStudentDetails> {
                             StudDetails.fname = data['fname'];
                             StudDetails.lname = data['lname'];
                             StudDetails.dept = data['Dept'];
-                            return Text(" ");
+                            return Text(StudDetails.dept);
                           }),
                     )
                   : Container(

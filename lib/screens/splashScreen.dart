@@ -8,7 +8,7 @@ import 'package:ssn_qos/screens/student_details.dart';
 class Splashscreen extends StatelessWidget {
   int? duration = 5;
   String id = "aadhithya2010747";
-  late student StudDetails;
+  late Student StudDetails;
   var _streamData = FirebaseFirestore.instance.collection('users').snapshots();
 
   @override
