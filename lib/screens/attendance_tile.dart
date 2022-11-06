@@ -27,9 +27,9 @@ class _attendance_tile_screenState extends State<attendance_tile_screen> {
                   Container(
                     height: 50,
                     width: 50,
-                    child: FlatButton(
+                    child: IconButton(
                       onPressed: null,
-                      child: Icon(
+                      icon: Icon(
                         Icons.menu_rounded,
                         size: 40,
                         color: Colors.white,
@@ -39,16 +39,16 @@ class _attendance_tile_screenState extends State<attendance_tile_screen> {
                   Container(
                       height: 60,
                       width: 60,
-                      child: FlatButton(
+                      child: IconButton(
                           onPressed: null,
-                          child: SvgPicture.asset(
+                          icon: SvgPicture.asset(
                               'assets/images/left_top_x.svg'))),
                   Container(
                       height: 50,
                       width: 50,
-                      child: FlatButton(
+                      child: IconButton(
                           onPressed: null,
-                          child: Image.asset('assets/images/search_icon.png'))),
+                          icon: Image.asset('assets/images/search_icon.png'))),
                 ],
               ),
             ),

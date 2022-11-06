@@ -5,6 +5,8 @@ import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
+import 'package:provider/provider.dart';
+import 'package:ssn_qos/screens/student.dart';
 
 const primaryColor = Colors.white;
 const canvasColor = Color.fromARGB(255, 28, 165, 46);
@@ -15,22 +17,29 @@ const actionColor = Color(0xFF5F5FA7);
 
 final divider = Divider(color: white.withOpacity(0.3), height: 1);
 
-class attendance_percent_diagram extends StatelessWidget {
+class attendance_percent_diagram extends StatefulWidget {
   final double percent;
   final double rad;
   const attendance_percent_diagram(
       {super.key, required this.percent, required this.rad});
 
   @override
+  State<attendance_percent_diagram> createState() =>
+      _attendance_percent_diagramState();
+}
+
+class _attendance_percent_diagramState
+    extends State<attendance_percent_diagram> {
+  @override
   Widget build(BuildContext context) {
     return CircularPercentIndicator(
-      radius: rad,
+      radius: widget.rad,
       lineWidth: 13.0,
       animation: true,
-      percent: percent / 100,
+      percent: widget.percent / 100,
       center: new Text(
         // ignore: prefer_interpolation_to_compose_strings
-        percent.toString() + "%",
+        widget.percent.toString() + "%",
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
       // footer: new Text(
@@ -42,29 +51,6 @@ class attendance_percent_diagram extends StatelessWidget {
     );
   }
 }
-
-List<Widget> nextScreens = [
-  attendance_tile_screen(),
-  attendance_tile_screen(),
-  attendance_tile_screen(),
-  attendance_tile_screen(),
-  attendance_tile_screen(),
-];
-
-List<String> caption = [
-  "Total Attendance",
-  "Upcoming Class",
-  "Reminder",
-  "Reminder",
-  "Reminder"
-];
-List<Widget> tiles = [
-  attendance_percent_diagram(percent: 30.4, rad: 80),
-  attendance_percent_diagram(percent: 30.4, rad: 12),
-  attendance_percent_diagram(percent: 30.4, rad: 12),
-  attendance_percent_diagram(percent: 30.4, rad: 12),
-  Text("Upcoming Assignments")
-];
 
 class home_screeen extends StatefulWidget {
   // student allData;
@@ -84,6 +70,28 @@ class _home_screeenState extends State<home_screeen> {
   var number = 0;
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Widget> nextScreens = [
+    attendance_tile_screen(),
+    attendance_tile_screen(),
+    attendance_tile_screen(),
+    attendance_tile_screen(),
+    attendance_tile_screen(),
+  ];
+
+  List<String> caption = [
+    "Total Attendance",
+    "Upcoming Class",
+    "Reminder",
+    "Reminder",
+    "Reminder"
+  ];
+  List<Widget> tiles = [
+    attendance_percent_diagram(percent: 30.4, rad: 24),
+    attendance_percent_diagram(percent: 30.4, rad: 12),
+    attendance_percent_diagram(percent: 30.4, rad: 12),
+    attendance_percent_diagram(percent: 30.4, rad: 12),
+    Text("Upcoming Assignments")
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -182,29 +190,34 @@ class _home_screeenState extends State<home_screeen> {
                 Container(
                     height: 50,
                     width: 50,
-                    child: FlatButton(
-                        splashColor: Colors.black26,
-                        onPressed: () {
-                          _scaffoldKey.currentState?.openDrawer();
-                        },
-                        child: Icon(
-                          Icons.menu_rounded,
-                          size: 40,
-                          color: Colors.white,
-                        ))),
+                    child: InkWell(
+                      child: IconButton(
+                          splashColor: Colors.black26,
+                          onPressed: () {
+                            _scaffoldKey.currentState?.openDrawer();
+                          },
+                          icon: Icon(
+                            Icons.menu_rounded,
+                            size: 40,
+                            color: Colors.white,
+                          )),
+                    )),
                 Container(
                     height: 60,
                     width: 60,
-                    child: FlatButton(
-                        onPressed: null,
-                        child:
+                    child: IconButton(
+                        onPressed: () {
+                          Provider.of<Student>(context, listen: false)
+                              .changeFname("dundun");
+                        },
+                        icon:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
                 Container(
                     height: 50,
                     width: 50,
-                    child: FlatButton(
+                    child: IconButton(
                         onPressed: null,
-                        child: Image.asset('assets/images/search_icon.png'))),
+                        icon: Image.asset('assets/images/search_icon.png'))),
               ],
             ),
           ),
@@ -228,7 +241,8 @@ class _home_screeenState extends State<home_screeen> {
                     style: new TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: MediaQuery.of(context).size.width * 0.08),
-                    "Greetings, Aadhithya!!",
+                    // "Greetings, Aadhithya!!",
+                    Provider.of<Student>(context).fname,
                   ),
                   Container(
                     decoration: const BoxDecoration(
