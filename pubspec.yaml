@@ -47,6 +47,9 @@ dependencies:
   percent_indicator: ^4.2.2
   sidebarx: ^0.14.0
   email_validator: ^2.1.17
+  image_picker: ^0.8.6
+  provider: ^6.0.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
