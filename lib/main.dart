@@ -1,12 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ssn_qos/main_menu.dart';
-import 'package:ssn_qos/screens/dashboard.dart';
-import 'package:ssn_qos/screens/test_page.dart';
-import 'package:ssn_qos/timetable_upload.dart';
-import 'package:ssn_qos/screens/test_stateless.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:ssn_qos/screens/main_menu.dart';
+import 'package:ssn_qos/screens/student.dart';
+import 'package:ssn_qos/screens/student_details.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() {
-  runApp(const MyApp());
+// import 'package:firebase_cras';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseOPS firebaseOps = FirebaseOPS();
+  DocumentSnapshot<Map<String, dynamic>> firebaseData =
+      await firebaseOps.getStudentInfo();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  runApp(ChangeNotifierProvider(
+      create: (context) => firebaseOps.setStudentInfo(firebaseData),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
       ),
-      home: screen3(),
+      home: SafeArea(top: true, child: home_screeen()),
     );
   }
 }
