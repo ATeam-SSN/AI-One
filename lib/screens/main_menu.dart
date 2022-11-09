@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:ssn_qos/screens/student.dart';
+import 'package:ssn_qos/widgets/attendance_bar.dart';
 
 const primaryColor = Colors.white;
 const canvasColor = Color.fromARGB(255, 28, 165, 46);
@@ -16,41 +16,6 @@ const white = Colors.white;
 const actionColor = Color(0xFF5F5FA7);
 
 final divider = Divider(color: white.withOpacity(0.3), height: 1);
-
-class attendance_percent_diagram extends StatefulWidget {
-  final double percent;
-  final double rad;
-  const attendance_percent_diagram(
-      {super.key, required this.percent, required this.rad});
-
-  @override
-  State<attendance_percent_diagram> createState() =>
-      _attendance_percent_diagramState();
-}
-
-class _attendance_percent_diagramState
-    extends State<attendance_percent_diagram> {
-  @override
-  Widget build(BuildContext context) {
-    return CircularPercentIndicator(
-      radius: widget.rad,
-      lineWidth: 13.0,
-      animation: true,
-      percent: widget.percent / 100,
-      center: new Text(
-        // ignore: prefer_interpolation_to_compose_strings
-        widget.percent.toString() + "%",
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-      ),
-      // footer: new Text(
-      //   "Sales this week",
-      //
-      // ),
-      circularStrokeCap: CircularStrokeCap.round,
-      progressColor: Color.fromARGB(255, 169, 130, 15),
-    );
-  }
-}
 
 class home_screeen extends StatefulWidget {
   // student allData;
@@ -86,10 +51,10 @@ class _home_screeenState extends State<home_screeen> {
     "Reminder"
   ];
   List<Widget> tiles = [
-    attendance_percent_diagram(percent: 30.4, rad: 24),
-    attendance_percent_diagram(percent: 30.4, rad: 12),
-    attendance_percent_diagram(percent: 30.4, rad: 12),
-    attendance_percent_diagram(percent: 30.4, rad: 12),
+    attendance_percent_diagram(rad: 64),
+    attendance_percent_diagram(rad: 12),
+    attendance_percent_diagram(rad: 12),
+    attendance_percent_diagram(rad: 12),
     Text("Upcoming Assignments")
   ];
 
@@ -191,33 +156,31 @@ class _home_screeenState extends State<home_screeen> {
                     height: 50,
                     width: 50,
                     child: InkWell(
-                      child: IconButton(
-                          splashColor: Colors.black26,
-                          onPressed: () {
-                            _scaffoldKey.currentState?.openDrawer();
-                          },
-                          icon: Icon(
-                            Icons.menu_rounded,
-                            size: 40,
-                            color: Colors.white,
-                          )),
+                      onTap: () {
+                        _scaffoldKey.currentState?.openDrawer();
+                      },
+                      child: Icon(
+                        Icons.menu_rounded,
+                        size: 40,
+                        color: Colors.white,
+                      ),
                     )),
                 Container(
                     height: 60,
                     width: 60,
-                    child: IconButton(
-                        onPressed: () {
+                    child: InkWell(
+                        onTap: () {
                           Provider.of<Student>(context, listen: false)
                               .changeFname("dundun");
                         },
-                        icon:
+                        child:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
                 Container(
                     height: 50,
                     width: 50,
-                    child: IconButton(
-                        onPressed: null,
-                        icon: Image.asset('assets/images/search_icon.png'))),
+                    child: InkWell(
+                        onTap: () {},
+                        child: Image.asset('assets/images/search_icon.png'))),
               ],
             ),
           ),
