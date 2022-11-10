@@ -172,6 +172,5 @@ class _attendence_screenState extends State<attendence_screen> {
         title: Text("AiOne"),
       ),
     );
-main
   }
 }
