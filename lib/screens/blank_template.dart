@@ -24,25 +24,25 @@ class screen3 extends StatelessWidget {
                 Container(
                     height: 50,
                     width: 50,
-                    child: FlatButton(
+                    child: IconButton(
                       onPressed: null,
-                      child: Image.asset(
+                      icon: Image.asset(
                         'assets/images/menu_icon.png',
                       ),
                     )),
                 Container(
                     height: 60,
                     width: 60,
-                    child: FlatButton(
+                    child: IconButton(
                         onPressed: null,
-                        child:
+                        icon:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
                 Container(
                     height: 50,
                     width: 50,
-                    child: FlatButton(
+                    child: IconButton(
                         onPressed: null,
-                        child: Image.asset('assets/images/avatar.png'))),
+                        icon: Image.asset('assets/images/avatar.png'))),
               ],
             ),
           ),
