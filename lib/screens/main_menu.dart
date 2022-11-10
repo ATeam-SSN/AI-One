@@ -2,45 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
-import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:ssn_qos/screens/student.dart';
+import 'package:ssn_qos/widgets/GetReminder.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
-
-const primaryColor = Colors.white;
-const canvasColor = Color.fromARGB(255, 28, 165, 46);
-// const scaffoldBackgroundColor = top_bar_color;
-const accentCanvasColor = Color(0xFF3E3E61);
-const white = Colors.white;
-const actionColor = Color(0xFF5F5FA7);
-
-final divider = Divider(color: white.withOpacity(0.3), height: 1);
+import 'package:ssn_qos/widgets/navigation_drawer.dart';
 
 class home_screeen extends StatefulWidget {
-  // student allData;
-  // home_screeen({this.allData});
+  late double percentage = 0;
+  late var username;
+  home_screeen({super.key, required this.percentage});
 
   @override
   State<home_screeen> createState() => _home_screeenState();
 }
 
 class _home_screeenState extends State<home_screeen> {
+  late double percent = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    percent = widget.percentage;
   }
 
   var number = 0;
-  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> nextScreens = [
-    attendance_tile_screen(),
-    attendance_tile_screen(),
-    attendance_tile_screen(),
-    attendance_tile_screen(),
-    attendance_tile_screen(),
+    attendance_tile_screen(
+      percentage: 0,
+    ),
+    GetReminder(),
+    attendance_tile_screen(
+      percentage: 0,
+    ),
+    attendance_tile_screen(
+      percentage: 0,
+    ),
+    attendance_tile_screen(
+      percentage: 0,
+    ),
   ];
 
   List<String> caption = [
@@ -51,10 +55,26 @@ class _home_screeenState extends State<home_screeen> {
     "Reminder"
   ];
   List<Widget> tiles = [
-    attendance_percent_diagram(rad: 64),
-    attendance_percent_diagram(rad: 12),
-    attendance_percent_diagram(rad: 12),
-    attendance_percent_diagram(rad: 12),
+    attendance_percent_diagram(
+      percentage: 0,
+      rad: 60,
+    ),
+    attendance_percent_diagram(
+      percentage: 0.7,
+      rad: 40,
+    ),
+    attendance_percent_diagram(
+      percentage: 0.7,
+      rad: 40,
+    ),
+    attendance_percent_diagram(
+      percentage: 0.7,
+      rad: 40,
+    ),
+    attendance_percent_diagram(
+      percentage: 0.7,
+      rad: 40,
+    ),
     Text("Upcoming Assignments")
   ];
 
@@ -62,82 +82,7 @@ class _home_screeenState extends State<home_screeen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SidebarX(
-        controller: _controller,
-        theme: SidebarXTheme(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          textStyle: const TextStyle(color: Colors.white),
-          selectedTextStyle: const TextStyle(color: Colors.white),
-          itemTextPadding: const EdgeInsets.only(left: 30),
-          selectedItemTextPadding: const EdgeInsets.only(left: 30),
-          itemDecoration: BoxDecoration(
-            border: Border.all(color: top_bar_color),
-          ),
-          selectedItemDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: actionColor.withOpacity(0.37),
-            ),
-            gradient: LinearGradient(
-              colors: [accentCanvasColor, top_bar_color],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.28),
-                blurRadius: 30,
-              )
-            ],
-          ),
-          iconTheme: const IconThemeData(
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-        extendedTheme: SidebarXTheme(
-          width: 200,
-          decoration: BoxDecoration(
-            color: top_bar_color,
-          ),
-          margin: EdgeInsets.only(right: 10),
-        ),
-        footerDivider: divider,
-        headerBuilder: (context, extended) {
-          return SafeArea(
-            child: SizedBox(
-              height: 100,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.asset('assets/images/avatar.png'),
-              ),
-            ),
-          );
-        },
-        items: [
-          SidebarXItem(
-            icon: Icons.home,
-            label: 'Home',
-            onTap: () {
-              debugPrint('Hello');
-            },
-          ),
-          const SidebarXItem(
-            icon: Icons.search,
-            label: 'Search',
-          ),
-          const SidebarXItem(
-            icon: Icons.people,
-            label: 'People',
-          ),
-          const SidebarXItem(
-            icon: Icons.favorite,
-            label: 'Favorites',
-          ),
-        ],
-      ),
+      drawer: TopDrawer(),
       backgroundColor: top_bar_color,
       body:
           // height: 500,
@@ -220,6 +165,8 @@ class _home_screeenState extends State<home_screeen> {
                           mainAxisSpacing: 12,
                           itemCount: 5,
                           itemBuilder: (context, index) {
+                            percent = widget.percentage;
+
                             return Material(
                               elevation: 4,
                               color: Colors.white,

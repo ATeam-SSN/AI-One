@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,87 +17,125 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Padding(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
           padding: const EdgeInsets.all(10),
-          child: ListView(
-            children: <Widget>[
+          child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
               Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
+                  height: 60,
+                  width: 60,
+                  child: InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset('assets/images/left_top_x.svg'))),
+              Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.all(20),
                   child: const Text(
-                    'TutorialKart',
+                    'AI One',
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w500,
-                        fontSize: 30),
+                        fontSize: 60),
                   )),
               Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(fontSize: 20),
-                  )),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
+                child: Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(color: Colors.black38, blurRadius: 15)
+                      ],
+                      color: Color.fromARGB(255, 84, 72, 221),
+                      borderRadius: BorderRadius.all(Radius.circular(45))),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                          child: const Text(
+                            'Sign in',
+                            style: TextStyle(fontSize: 30),
+                          )),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: TextField(
+                          style: TextStyle(color: primaryColor),
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: primaryColor)),
+                              labelText: 'Username',
+                              labelStyle: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: TextField(
+                          style: TextStyle(color: primaryColor),
+                          cursorColor: primaryColor,
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: primaryColor)),
+                              labelText: 'Password',
+                              labelStyle: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          //forgot password screen
+                        },
+                        child: const Text(
+                          'Forgot Password',
+                        ),
+                      ),
+                      Container(
+                          height: 50,
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            child: const Text('Login'),
+                            onPressed: () {
+                              if (nameController.text != null &&
+                                  passwordController.text != null) {
+                                SignIn();
+                              } else {}
+                            },
+                          )),
+                      Row(
+                        children: <Widget>[
+                          const Text(
+                            'Does not have account?',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          TextButton(
+                            child: const Text(
+                              'Sign in',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color.fromARGB(255, 53, 193, 232)),
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
-                ),
-              ),
-              Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    child: const Text('Login'),
-                    onPressed: () {
-                      print(nameController.text);
-                      print(passwordController.text);
-                    },
-                  )),
-              Row(
-                children: <Widget>[
-                  const Text('Does not have account?'),
-                  TextButton(
-                    child: const Text(
-                      'Sign in',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => home_screeen()),
-                      );
-                    },
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
               ),
             ],
           )),
     );
+  }
+
+  Future SignIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: nameController.text.trim(),
+        password: passwordController.text.trim());
   }
 }
