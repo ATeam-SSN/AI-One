@@ -5,6 +5,7 @@ import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:ssn_qos/screens/blank_template.dart';
 import 'package:ssn_qos/screens/student.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 
@@ -36,8 +37,6 @@ class _home_screeenState extends State<home_screeen> {
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> nextScreens = [
-    attendance_tile_screen(),
-    attendance_tile_screen(),
     attendance_tile_screen(),
     attendance_tile_screen(),
     attendance_tile_screen(),
