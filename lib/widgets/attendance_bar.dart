@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:ssn_qos/screens/student_details.dart';
+import 'package:ssn_qos/services/student_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<Map<String, double>> getAggregateAttendance() async {

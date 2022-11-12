@@ -3,8 +3,9 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ssn_qos/screens/add_tasks.dart';
 import 'package:ssn_qos/screens/blank_template.dart';
-import 'package:ssn_qos/screens/student_details.dart';
+import 'package:ssn_qos/services/student_details.dart';
 import 'package:ssn_qos/widgets/ReminderCard.dart';
 
 class GetReminder extends StatefulWidget {
@@ -22,10 +23,6 @@ class _GetReminderState extends State<GetReminder> {
     FirebaseOPS firebaseOps = FirebaseOPS();
     DocumentSnapshot<Map<String, dynamic>> firebaseData =
         await firebaseOps.getStudentInfo();
-
-    for (var i in firebaseData.get('reminder').keys()) {
-      docLength += 1;
-    }
   }
 
   @override
@@ -41,20 +38,32 @@ class _GetReminderState extends State<GetReminder> {
     return SafeArea(
       top: true,
       child: BlankScreen(
-          child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc('abhishek2010637@ssn.edu.in')
-            .snapshots(),
-        builder: (context, snapshot) {
-          print("$snapshot");
-          if (!snapshot.hasData) return CircularProgressIndicator();
-          return ListView.builder(
-              itemExtent: 80,
-              itemCount: 5,
-              itemBuilder: ((context, index) => ReminderCard(text: "yoyo")));
-        },
-      )),
+        child: Column(
+          children: [
+            Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                    child: Icon(Icons.add_alert_rounded),
+                    onPressed: () {
+                      AddTask();
+                    }))
+          ],
+        ),
+        //     child: StreamBuilder(
+        //   stream: FirebaseFirestore.instance
+        //       .collection('users')
+        //       .doc('abhishek2010637@ssn.edu.in')
+        //       .snapshots(),
+        //   builder: (context, snapshot) {
+        //     print("$snapshot");
+        //     if (!snapshot.hasData) return CircularProgressIndicator();
+        //     return ListView.builder(
+        //         itemExtent: 80,
+        //         itemCount: 5,
+        //         itemBuilder: ((context, index) => ReminderCard(text: "yoyo")));
+        //   },
+        // )),
+      ),
     );
   }
 }

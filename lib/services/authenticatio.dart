@@ -35,9 +35,7 @@ class _MainPageState extends State<MainPage> {
             print(snapshot.data);
             print("Login Successful");
             PercentageCall();
-            return home_screeen(
-              percentage: attendance_percent,
-            );
+            return home_screeen();
           } else {
             return LoginScreen();
           }

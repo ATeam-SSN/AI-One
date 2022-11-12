@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'student.dart';
+import 'package:ssn_qos/models/student.dart';
 
 class FirebaseOPS {
   Future<DocumentSnapshot<Map<String, dynamic>>> getStudentInfo() async {
@@ -10,8 +10,11 @@ class FirebaseOPS {
 
   Student setStudentInfo(DocumentSnapshot<Map<String, dynamic>> map) {
     String fname = map.get("fname");
-    String lname = map.get("lname");
     String dept = map.get("Dept");
-    return Student(fname: fname, lname: lname, dept: dept);
+    Student Details = new Student(fname: fname, dept: dept);
+    Details.reminders = map.get("reminder");
+    Details.attendance = map.get('attd');
+
+    return Details;
   }
 }

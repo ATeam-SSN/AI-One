@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'student.dart';
+
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
-import 'package:ssn_qos/screens/student_details.dart';
+import 'package:ssn_qos/services/student_details.dart';
+import 'package:ssn_qos/models/student.dart';
 
 class Splashscreen extends StatelessWidget {
   int? duration = 5;
@@ -29,15 +30,14 @@ class Splashscreen extends StatelessWidget {
                       return Container(
                         color: Colors.blueAccent,
                         child: SplashScreen(
-                          seconds: this.duration,
-                          title: Text(
-                            'AI - One',
-                            textScaleFactor: 2,
-                          ),
-                          image: Image.asset('assets/images/left_top_x.png'),
-                          loaderColor: Colors.white,
-                          navigateAfterSeconds: home_screeen(),
-                        ),
+                            seconds: this.duration,
+                            title: Text(
+                              'AI - One',
+                              textScaleFactor: 2,
+                            ),
+                            image: Image.asset('assets/images/left_top_x.png'),
+                            loaderColor: Colors.white,
+                            navigateAfterSeconds: {}),
                       );
                     }),
               );

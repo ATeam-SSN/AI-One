@@ -4,48 +4,33 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
-import 'package:ssn_qos/screens/student.dart';
-import 'package:ssn_qos/widgets/GetReminder.dart';
+import 'package:ssn_qos/models/student.dart';
+import 'package:ssn_qos/screens/GetReminder.dart';
+import 'package:ssn_qos/screens/displayTask.dart';
+import 'package:ssn_qos/widgets/NextPeriod.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ssn_qos/accentColors/app_themes.dart';
 
 class home_screeen extends StatefulWidget {
   late double percentage = 0;
   late var username;
-  home_screeen({super.key, required this.percentage});
 
   @override
   State<home_screeen> createState() => _home_screeenState();
 }
 
 class _home_screeenState extends State<home_screeen> {
-  late double percent = 0;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    percent = widget.percentage;
   }
 
   var number = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Widget> nextScreens = [
-    attendance_tile_screen(
-      percentage: 0,
-    ),
-    GetReminder(),
-    attendance_tile_screen(
-      percentage: 0,
-    ),
-    attendance_tile_screen(
-      percentage: 0,
-    ),
-    attendance_tile_screen(
-      percentage: 0,
-    ),
-  ];
 
   List<String> caption = [
     "Total Attendance",
@@ -54,32 +39,69 @@ class _home_screeenState extends State<home_screeen> {
     "Reminder",
     "Reminder"
   ];
-  List<Widget> tiles = [
-    attendance_percent_diagram(
-      percentage: 0,
-      rad: 60,
-    ),
-    attendance_percent_diagram(
-      percentage: 0.7,
-      rad: 40,
-    ),
-    attendance_percent_diagram(
-      percentage: 0.7,
-      rad: 40,
-    ),
-    attendance_percent_diagram(
-      percentage: 0.7,
-      rad: 40,
-    ),
-    attendance_percent_diagram(
-      percentage: 0.7,
-      rad: 40,
-    ),
-    Text("Upcoming Assignments")
-  ];
 
   @override
   Widget build(BuildContext context) {
+    var Days = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday",
+    };
+    double AvgPercentage() {
+      late double percent = 0;
+      int i = 0;
+      for (var sub in Provider.of<Student>(context).attendance.keys) {
+        i += 1;
+        percent += Provider.of<Student>(context).attendance[sub]['attended'] /
+            Provider.of<Student>(context).attendance[sub]['total'];
+      }
+      percent /= i;
+      return double.parse(percent.toStringAsFixed(2));
+    }
+
+    List<Widget> tiles = [
+      attendance_percent_diagram(
+        percentage: AvgPercentage(),
+        rad: 60,
+      ),
+      NextPeriod(
+        current: "UIT1502 - Computer Networks and Applications",
+        next: "UIT1501 - FAT",
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      Text("Upcoming Assignments")
+    ];
+    List<Widget> nextScreens = [
+      attendance_tile_screen(
+        percentage: AvgPercentage(),
+      ),
+      GetReminder(),
+      attendance_tile_screen(
+        percentage: 0,
+      ),
+      DisplayTask(),
+      attendance_tile_screen(
+        percentage: 0,
+      ),
+    ];
+    final user = FirebaseAuth.instance.currentUser!;
+    print(DateTime.now());
+    print(user.email);
     return Scaffold(
       key: _scaffoldKey,
       drawer: TopDrawer(),
@@ -132,25 +154,20 @@ class _home_screeenState extends State<home_screeen> {
           SingleChildScrollView(
             child: Container(
               alignment: Alignment.topCenter,
-              // height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 246, 248, 246),
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(43))),
-              // color: Colors.transparent,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     height: 15,
                   ),
                   Text(
-                    style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width * 0.08),
+                    style: AppThemes().WelcomeStyle,
                     // "Greetings, Aadhithya!!",
-                    Provider.of<Student>(context).fname,
+                    "Welcome Back!\n${Provider.of<Student>(context).fname}",
                   ),
                   Container(
                     decoration: const BoxDecoration(
@@ -165,8 +182,6 @@ class _home_screeenState extends State<home_screeen> {
                           mainAxisSpacing: 12,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            percent = widget.percentage;
-
                             return Material(
                               elevation: 4,
                               color: Colors.white,
@@ -181,7 +196,10 @@ class _home_screeenState extends State<home_screeen> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(caption[index]),
+                                    Text(
+                                      caption[index],
+                                      style: AppThemes().CaptionStyle,
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),

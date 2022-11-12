@@ -49,7 +49,14 @@ dependencies:
   email_validator: ^2.1.17
   image_picker: ^0.8.6
   provider: ^6.0.4
-  
+  flutter_local_notifications:
+  auto_size_text: ^3.0.0 
+  font_awesome_flutter: ^9.1.0
+  get_storage:
+  get:
+  date_picker_timeline:
+  sqflite:
+  google_fonts: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

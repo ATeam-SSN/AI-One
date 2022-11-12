@@ -17,6 +17,7 @@ class ReminderCard extends StatelessWidget {
   Color giveRandomColor() {
     Random rnd = new Random();
     var element = AllColors[rnd.nextInt(AllColors.length)];
+    print(element);
     return element;
   }
 

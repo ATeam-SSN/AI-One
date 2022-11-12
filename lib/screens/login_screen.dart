@@ -4,6 +4,8 @@ import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -17,72 +19,85 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    navigatorKey:
+    navigatorKey;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 100,
-              ),
-              Container(
+      body: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                SizedBox(
                   height: 60,
-                  width: 60,
-                  child: InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset('assets/images/left_top_x.svg'))),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.all(20),
-                  child: const Text(
-                    'AI One',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 60),
-                  )),
-              Container(
-                child: Container(
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(color: Colors.black38, blurRadius: 15)
-                      ],
-                      color: Color.fromARGB(255, 84, 72, 221),
-                      borderRadius: BorderRadius.all(Radius.circular(45))),
+                ),
+                Container(
+                    alignment: Alignment.topCenter,
+                    height: 50,
+                    width: 50,
+                    child: SvgPicture.asset(
+                      'assets/images/left_top_x.svg',
+                      color: Colors.blue,
+                    )),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: const Text(
+                      'Welcome to',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 60),
+                    )),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: const Text(
+                      'AI One',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 60),
+                    )),
+                Container(
                   child: Column(
                     children: <Widget>[
                       Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(10),
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.all(20),
                           child: const Text(
                             'Sign in',
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(
+                                fontSize: 30, color: Colors.blueAccent),
                           )),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: TextField(
-                          style: TextStyle(color: primaryColor),
+                          style: TextStyle(),
                           controller: nameController,
                           decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor)),
-                              labelText: 'Username',
-                              labelStyle: TextStyle(color: Colors.white)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    color: Colors.blue,
+                                    strokeAlign: StrokeAlign.center)),
+                            labelText: 'Username',
+                          ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: TextField(
-                          style: TextStyle(color: primaryColor),
+                          style: TextStyle(),
                           cursorColor: primaryColor,
                           obscureText: true,
                           controller: passwordController,
                           decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor)),
-                              labelText: 'Password',
-                              labelStyle: TextStyle(color: Colors.white)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue, width: 3)),
+                            labelText: 'Password',
+                          ),
                         ),
                       ),
                       TextButton(
@@ -110,7 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           const Text(
                             'Does not have account?',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 82, 33, 243)),
                           ),
                           TextButton(
                             child: const Text(
@@ -127,15 +143,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+      ),
     );
   }
 
   Future SignIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: nameController.text.trim(),
-        password: passwordController.text.trim());
+    try {
+      showDialog(
+          context: context,
+          builder: (context) => Center(
+                child: CircularProgressIndicator(),
+              ));
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: nameController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => true);
   }
 }

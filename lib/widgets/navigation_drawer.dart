@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final divider = Divider(color: white.withOpacity(0.3), height: 1);
 
@@ -31,7 +32,7 @@ class _TopDrawerState extends State<TopDrawer> {
           border: Border.all(color: top_bar_color),
         ),
         selectedItemDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: actionColor.withOpacity(0.37),
           ),
@@ -78,16 +79,20 @@ class _TopDrawerState extends State<TopDrawer> {
           },
         ),
         const SidebarXItem(
-          icon: Icons.search,
-          label: 'Search',
+          icon: Icons.book_rounded,
+          label: 'Attendance',
         ),
         const SidebarXItem(
-          icon: Icons.people,
-          label: 'People',
+          icon: Icons.share_arrival_time_outlined,
+          label: 'TimeTable',
         ),
         const SidebarXItem(
-          icon: Icons.favorite,
-          label: 'Favorites',
+          icon: Icons.notifications_rounded,
+          label: 'Reminder',
+        ),
+        const SidebarXItem(
+          icon: Icons.logout_rounded,
+          label: 'Log out',
         ),
       ],
     );
