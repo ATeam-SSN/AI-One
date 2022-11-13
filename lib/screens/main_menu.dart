@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
-import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
-import 'package:ssn_qos/screens/blank_template.dart';
-import 'package:ssn_qos/screens/student.dart';
+ 
+import 'package:ssn_qos/models/student.dart';
+import 'package:ssn_qos/screens/GetReminder.dart';
+import 'package:ssn_qos/screens/displayTask.dart';
+import 'package:ssn_qos/widgets/NextPeriod.dart';
+ 
 import 'package:ssn_qos/widgets/attendance_bar.dart';
-
-const primaryColor = Colors.white;
-const canvasColor = Color.fromARGB(255, 28, 165, 46);
-// const scaffoldBackgroundColor = top_bar_color;
-const accentCanvasColor = Color(0xFF3E3E61);
-const white = Colors.white;
-const actionColor = Color(0xFF5F5FA7);
-
-final divider = Divider(color: white.withOpacity(0.3), height: 1);
+import 'package:ssn_qos/widgets/navigation_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:intl/intl.dart';
 
 class home_screeen extends StatefulWidget {
-  // student allData;
-  // home_screeen({this.allData});
+  late double percentage = 0;
+  late var username;
 
   @override
   State<home_screeen> createState() => _home_screeenState();
@@ -34,13 +33,9 @@ class _home_screeenState extends State<home_screeen> {
   }
 
   var number = 0;
-  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Widget> nextScreens = [
-    attendance_tile_screen(),
-    attendance_tile_screen(),
-    attendance_tile_screen(),
-  ];
+ 
 
   List<String> caption = [
     "Total Attendance",
@@ -49,94 +44,94 @@ class _home_screeenState extends State<home_screeen> {
     "Reminder",
     "Reminder"
   ];
-  List<Widget> tiles = [
-    attendance_percent_diagram(rad: 64),
-    attendance_percent_diagram(rad: 12),
-    attendance_percent_diagram(rad: 12),
-    attendance_percent_diagram(rad: 12),
-    Text("Upcoming Assignments")
-  ];
 
   @override
   Widget build(BuildContext context) {
+    var Days = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday",
+    };
+    double AvgPercentage() {
+      late double percent = 0;
+      int i = 0;
+      for (var sub in Provider.of<Student>(context).attendance.keys) {
+        i += 1;
+        percent += Provider.of<Student>(context).attendance[sub]['attended'] /
+            Provider.of<Student>(context).attendance[sub]['total'];
+      }
+      percent /= i;
+      return double.parse(percent.toStringAsFixed(2));
+    }
+
+    String GetPeriod(DateTime Time) {
+      var keys = Provider.of<Student>(context, listen: false).timetable.keys;
+      for (var day in keys) {
+        if (DateFormat('EEEE').format(Time) == day) {
+          for (var period in Provider.of<Student>(context, listen: false)
+              .timetable[day]
+              .keys) {
+            var start = Provider.of<Student>(context, listen: false)
+                .timetable[day][period]['start']
+                .toDate();
+            var end = Provider.of<Student>(context, listen: false)
+                .timetable[day][period]['end']
+                .toDate();
+            if (Time.isAfter(start) && Time.isBefore(end)) {
+              return Provider.of<Student>(context, listen: false).timetable[day]
+                  [period]['name'];
+            }
+          }
+        }
+      }
+      return " -- -- ";
+    }
+
+    List<Widget> tiles = [
+      attendance_percent_diagram(
+        percentage: AvgPercentage(),
+        rad: 60,
+      ),
+      NextPeriod(
+        current: GetPeriod(DateTime.now()),
+        next: GetPeriod(DateTime.now().subtract(Duration(hours: 1))),
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      attendance_percent_diagram(
+        percentage: 0.7,
+        rad: 40,
+      ),
+      Text("Upcoming Assignments")
+    ];
+    List<Widget> nextScreens = [
+      attendance_tile_screen(
+        percentage: AvgPercentage(),
+      ),
+      GetReminder(),
+      attendance_tile_screen(
+        percentage: 0,
+      ),
+      DisplayTask(),
+      attendance_tile_screen(
+        percentage: 0,
+      ),
+    ];
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SidebarX(
-        controller: _controller,
-        theme: SidebarXTheme(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          textStyle: const TextStyle(color: Colors.white),
-          selectedTextStyle: const TextStyle(color: Colors.white),
-          itemTextPadding: const EdgeInsets.only(left: 30),
-          selectedItemTextPadding: const EdgeInsets.only(left: 30),
-          itemDecoration: BoxDecoration(
-            border: Border.all(color: top_bar_color),
-          ),
-          selectedItemDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: actionColor.withOpacity(0.37),
-            ),
-            gradient: LinearGradient(
-              colors: [accentCanvasColor, top_bar_color],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.28),
-                blurRadius: 30,
-              )
-            ],
-          ),
-          iconTheme: const IconThemeData(
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-        extendedTheme: SidebarXTheme(
-          width: 200,
-          decoration: BoxDecoration(
-            color: top_bar_color,
-          ),
-          margin: EdgeInsets.only(right: 10),
-        ),
-        footerDivider: divider,
-        headerBuilder: (context, extended) {
-          return SafeArea(
-            child: SizedBox(
-              height: 100,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.asset('assets/images/avatar.png'),
-              ),
-            ),
-          );
-        },
-        items: [
-          SidebarXItem(
-            icon: Icons.home,
-            label: 'Home',
-            onTap: () {
-              debugPrint('Hello');
-            },
-          ),
-          const SidebarXItem(
-            icon: Icons.search,
-            label: 'Search',
-          ),
-          const SidebarXItem(
-            icon: Icons.people,
-            label: 'People',
-          ),
-          const SidebarXItem(
-            icon: Icons.favorite,
-            label: 'Favorites',
-          ),
-        ],
-      ),
+      drawer: TopDrawer(),
       backgroundColor: top_bar_color,
       body:
           // height: 500,
@@ -170,7 +165,9 @@ class _home_screeenState extends State<home_screeen> {
                     child: InkWell(
                         onTap: () {
                           Provider.of<Student>(context, listen: false)
-                              .changeFname("dundun");
+                              .changeFname("Captain");
+                          GetPeriod(DateTime.now());
+                          GetPeriod(DateTime.now().add(Duration(hours: 1)));
                         },
                         child:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
@@ -186,25 +183,20 @@ class _home_screeenState extends State<home_screeen> {
           SingleChildScrollView(
             child: Container(
               alignment: Alignment.topCenter,
-              // height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 246, 248, 246),
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(43))),
-              // color: Colors.transparent,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     height: 15,
                   ),
                   Text(
-                    style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width * 0.08),
+                    style: AppThemes().WelcomeStyle,
                     // "Greetings, Aadhithya!!",
-                    Provider.of<Student>(context).fname,
+                    "Welcome Back!\n${Provider.of<Student>(context).fname}",
                   ),
                   Container(
                     decoration: const BoxDecoration(
@@ -233,7 +225,10 @@ class _home_screeenState extends State<home_screeen> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(caption[index]),
+                                    Text(
+                                      caption[index],
+                                      style: AppThemes().CaptionStyle,
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),

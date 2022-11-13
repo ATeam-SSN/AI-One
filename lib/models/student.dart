@@ -3,13 +3,16 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class Student extends ChangeNotifier {
-  String fname, lname, dept;
+  String fname, dept;
+  late Map<String, dynamic> reminders;
+  late Map<String, dynamic> attendance;
+  late Map<String, dynamic> timetable;
 
-  Student({required this.fname, required this.lname, required this.dept});
+  Student({required this.fname, required this.dept});
 
   void printStudent() {
     print(fname);
-    print(lname);
+
     print(dept);
   }
 
