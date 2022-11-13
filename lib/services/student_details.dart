@@ -14,6 +14,7 @@ class FirebaseOPS {
     Student Details = new Student(fname: fname, dept: dept);
     Details.reminders = map.get("reminder");
     Details.attendance = map.get('attd');
+    Details.timetable = map.get('timtable');
 
     return Details;
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
@@ -12,6 +13,7 @@ import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:intl/intl.dart';
 
 class home_screeen extends StatefulWidget {
   late double percentage = 0;
@@ -63,14 +65,37 @@ class _home_screeenState extends State<home_screeen> {
       return double.parse(percent.toStringAsFixed(2));
     }
 
+    String GetPeriod(DateTime Time) {
+      var keys = Provider.of<Student>(context, listen: false).timetable.keys;
+      for (var day in keys) {
+        if (DateFormat('EEEE').format(Time) == day) {
+          for (var period in Provider.of<Student>(context, listen: false)
+              .timetable[day]
+              .keys) {
+            var start = Provider.of<Student>(context, listen: false)
+                .timetable[day][period]['start']
+                .toDate();
+            var end = Provider.of<Student>(context, listen: false)
+                .timetable[day][period]['end']
+                .toDate();
+            if (Time.isAfter(start) && Time.isBefore(end)) {
+              return Provider.of<Student>(context, listen: false).timetable[day]
+                  [period]['name'];
+            }
+          }
+        }
+      }
+      return " -- -- ";
+    }
+
     List<Widget> tiles = [
       attendance_percent_diagram(
         percentage: AvgPercentage(),
         rad: 60,
       ),
       NextPeriod(
-        current: "UIT1502 - Computer Networks and Applications",
-        next: "UIT1501 - FAT",
+        current: GetPeriod(DateTime.now()),
+        next: GetPeriod(DateTime.now().subtract(Duration(hours: 1))),
       ),
       attendance_percent_diagram(
         percentage: 0.7,
@@ -100,8 +125,7 @@ class _home_screeenState extends State<home_screeen> {
       ),
     ];
     final user = FirebaseAuth.instance.currentUser!;
-    print(DateTime.now());
-    print(user.email);
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: TopDrawer(),
@@ -138,7 +162,9 @@ class _home_screeenState extends State<home_screeen> {
                     child: InkWell(
                         onTap: () {
                           Provider.of<Student>(context, listen: false)
-                              .changeFname("dundun");
+                              .changeFname("Captain");
+                          GetPeriod(DateTime.now());
+                          GetPeriod(DateTime.now().add(Duration(hours: 1)));
                         },
                         child:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
