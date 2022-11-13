@@ -7,6 +7,7 @@ class BlankScreen extends StatelessWidget {
   BlankScreen({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
+ 
     return Scaffold(
       backgroundColor: top_bar_color,
       body: SingleChildScrollView(
@@ -69,6 +70,7 @@ class BlankScreen extends StatelessWidget {
           )
         ]),
       ),
+ 
     );
   }
 }

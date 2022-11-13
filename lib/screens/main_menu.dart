@@ -5,10 +5,12 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
+ 
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/GetReminder.dart';
 import 'package:ssn_qos/screens/displayTask.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
+ 
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,6 +35,7 @@ class _home_screeenState extends State<home_screeen> {
   var number = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+ 
 
   List<String> caption = [
     "Total Attendance",
