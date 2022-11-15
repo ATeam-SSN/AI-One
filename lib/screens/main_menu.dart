@@ -190,10 +190,13 @@ class _home_screeenState extends State<home_screeen> {
                   Container(
                     height: 15,
                   ),
-                  Text(
-                    style: AppThemes().WelcomeStyle,
-                    // "Greetings, Aadhithya!!",
-                    "Welcome Back!\n${Provider.of<Student>(context).fname}",
+                  FittedBox(
+                    fit: BoxFit.cover,
+                    child: Text(
+                      style: AppThemes().WelcomeStyle,
+                      // "Greetings, Aadhithya!!",
+                      "Welcome Back!\n${Provider.of<Student>(context).fname}",
+                    ),
                   ),
                   Container(
                     decoration: const BoxDecoration(

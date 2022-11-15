@@ -14,25 +14,35 @@ class _NextPeriodState extends State<NextPeriod> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(top: 20, left: 20, right: 20),
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 130, 237, 64),
+          color: Color.fromARGB(255, 144, 219, 97),
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         children: [
-          Text(
-            "Current Hour",
-            style: AppThemes().PeriodLabelStyle,
-          ),
-          Text(
-            widget.current,
-            style: AppThemes().PeiodStyle,
+          Padding(
+            padding: EdgeInsets.only(top: 10, bottom: 20),
+            child: Text(
+              "Current Hour",
+              style: AppThemes().PeriodLabelStyle,
+            ),
           ),
           Container(
+            child: Center(
+              child: Text(
+                widget.current,
+                style: AppThemes().PeiodStyle,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Container(
+            width: double.infinity,
             padding: EdgeInsets.only(top: 10),
             child: Container(
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 156, 189),
+                  color: Color.fromARGB(255, 226, 169, 85),
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(
                 children: [
@@ -40,9 +50,14 @@ class _NextPeriodState extends State<NextPeriod> {
                     "Next Hour",
                     style: AppThemes().PeriodLabelStyle,
                   ),
-                  Text(
-                    widget.next,
-                    style: AppThemes().PeiodStyle,
+                  Container(
+                    height: 127,
+                    child: Center(
+                      child: Text(
+                        widget.next,
+                        style: AppThemes().PeiodStyle,
+                      ),
+                    ),
                   )
                 ],
               ),

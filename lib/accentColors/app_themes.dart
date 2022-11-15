@@ -102,6 +102,10 @@ class AppThemes {
     return GoogleFonts.bitter(fontSize: 16, fontWeight: FontWeight.w500);
   }
 
+  TextStyle get CourseStyle {
+    return GoogleFonts.bitter(fontSize: 16, fontWeight: FontWeight.w500);
+  }
+
   TextStyle get monthStyle {
     return GoogleFonts.bitter(fontSize: 12, fontWeight: FontWeight.w500);
   }

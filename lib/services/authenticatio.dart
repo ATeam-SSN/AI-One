@@ -13,18 +13,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late double attendance_percent = 0;
-  Future PercentageCall() async {
-    var result = await getAggregateAttendance();
-    print(result);
-    var i = 0;
-    for (final MapEntry in result.entries) {
-      attendance_percent = attendance_percent + MapEntry.value;
-      i += 1;
-    }
-    attendance_percent /= i;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +20,8 @@ class _MainPageState extends State<MainPage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data);
             print("Login Successful");
-            PercentageCall();
+
             return home_screeen();
           } else {
             return LoginScreen();
