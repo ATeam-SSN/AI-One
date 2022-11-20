@@ -11,7 +11,8 @@ class FirebaseOPS {
   Student setStudentInfo(DocumentSnapshot<Map<String, dynamic>> map) {
     String fname = map.get("fname");
     String dept = map.get("Dept");
-    Student Details = new Student(fname: fname, dept: dept);
+    String section = map.get("Section");
+    Student Details = Student(fname: fname, dept: dept, section: section);
     Details.reminders = map.get("reminder");
     Details.attendance = map.get('attd');
     Details.timetable = map.get('timtable');

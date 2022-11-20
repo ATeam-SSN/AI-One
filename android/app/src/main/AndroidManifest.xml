@@ -2,8 +2,10 @@
     package="com.example.ssn_qos">
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
+        android:usesCleartextTraffic="true"
         android:label="ssn_qos"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true" 
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

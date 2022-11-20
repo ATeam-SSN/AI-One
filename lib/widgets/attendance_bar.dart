@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:ssn_qos/services/student_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ssn_qos/models/student.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 
 class IndividualCourse extends StatefulWidget {
   const IndividualCourse({super.key});

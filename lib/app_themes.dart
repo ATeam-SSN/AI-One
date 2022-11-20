@@ -113,4 +113,23 @@ class AppThemes {
   TextStyle get labelStyle {
     return GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500);
   }
+
+  TextStyle get RegisterStyle1 {
+    return TextStyle(
+        color: Colors.blue, fontWeight: FontWeight.w300, fontSize: 40);
+  }
+
+  TextStyle get RegisterStyle3 {
+    return TextStyle(
+        color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 40);
+  }
+
+  TextStyle get RegisterStyle2 {
+    return TextStyle(
+        color: Colors.blue, fontWeight: FontWeight.w300, fontSize: 20);
+  }
+
+  TextStyle get small {
+    return TextStyle(fontWeight: FontWeight.w400, fontSize: 20);
+  }
 }

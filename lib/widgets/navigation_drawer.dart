@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ssn_qos/models/student.dart';
+import 'package:ssn_qos/screens/attendance_tile.dart';
+import 'package:ssn_qos/screens/main_menu.dart';
+import 'package:ssn_qos/screens/timeTable.dart';
 
-final divider = Divider(color: white.withOpacity(0.3), height: 1);
+final divider = Divider(color: white.withOpacity(0.5), height: 2);
 
 class TopDrawer extends StatefulWidget {
-  const TopDrawer({super.key});
+  late var logout;
+  TopDrawer({super.key, required this.logout});
 
   @override
   State<TopDrawer> createState() => _TopDrawerState();
@@ -16,6 +22,18 @@ class _TopDrawerState extends State<TopDrawer> {
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   @override
   Widget build(BuildContext context) {
+    double AvgPercentage() {
+      late double percent = 0;
+      int i = 0;
+      for (var sub in Provider.of<Student>(context).attendance.keys) {
+        i += 1;
+        percent += Provider.of<Student>(context).attendance[sub]['attended'] /
+            Provider.of<Student>(context).attendance[sub]['total'];
+      }
+      percent /= i;
+      return double.parse(percent.toStringAsFixed(2));
+    }
+
     return SidebarX(
       controller: _controller,
       theme: SidebarXTheme(
@@ -76,24 +94,36 @@ class _TopDrawerState extends State<TopDrawer> {
           label: 'Home',
           onTap: () {
             debugPrint('Hello');
+            Navigator.pop(context);
           },
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.book_rounded,
           label: 'Attendance',
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => attendance_tile_screen(
+                          percentage: AvgPercentage(),
+                        )));
+          },
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.share_arrival_time_outlined,
           label: 'TimeTable',
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => TimeTableScreen()));
+          },
         ),
         const SidebarXItem(
           icon: Icons.notifications_rounded,
           label: 'Reminder',
         ),
-        const SidebarXItem(
-          icon: Icons.logout_rounded,
-          label: 'Log out',
-        ),
+        widget.logout,
       ],
     );
   }

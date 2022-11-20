@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:ssn_qos/services/authenticatio.dart';
 import 'package:ssn_qos/screens/login_screen.dart';
@@ -8,10 +9,15 @@ import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/services/student_details.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:ssn_qos/services/utils.dart';
+
+import 'database_service/sql_service.dart';
 
 // import 'package:firebase_cras';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SqlServices.initDatabase();
+  await GetStorage.init();
   await Firebase.initializeApp();
   FirebaseOPS firebaseOps = FirebaseOPS();
   DocumentSnapshot<Map<String, dynamic>> firebaseData =
@@ -28,6 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: Utils.messengerKey,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -1,18 +1,25 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/GetReminder.dart';
 import 'package:ssn_qos/screens/displayTask.dart';
+import 'package:ssn_qos/screens/sample.dart';
+import 'package:ssn_qos/screens/timeTable.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 import 'package:intl/intl.dart';
 
 class home_screeen extends StatefulWidget {
@@ -44,15 +51,8 @@ class _home_screeenState extends State<home_screeen> {
 
   @override
   Widget build(BuildContext context) {
-    var Days = {
-      1: "Monday",
-      2: "Tuesday",
-      3: "Wednesday",
-      4: "Thursday",
-      5: "Friday",
-      6: "Saturday",
-      7: "Sunday",
-    };
+    // print(FirebaseAuth.instance.currentUser!.email);
+    print(DateTime.parse("2022-11-20 08:50:00"));
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
@@ -65,20 +65,32 @@ class _home_screeenState extends State<home_screeen> {
       return double.parse(percent.toStringAsFixed(2));
     }
 
-    String GetPeriod(DateTime Time) {
+    String GetPeriod(DateTime dTime) {
+      String d2 = DateFormat('yyyy-MM-dd').format(dTime);
+      // print(d2);
       var keys = Provider.of<Student>(context, listen: false).timetable.keys;
       for (var day in keys) {
-        if (DateFormat('EEEE').format(Time) == day) {
+        if (DateFormat('EEEE').format(dTime) == day) {
           for (var period in Provider.of<Student>(context, listen: false)
               .timetable[day]
               .keys) {
-            var start = Provider.of<Student>(context, listen: false)
-                .timetable[day][period]['start']
-                .toDate();
-            var end = Provider.of<Student>(context, listen: false)
-                .timetable[day][period]['end']
-                .toDate();
-            if (Time.isAfter(start) && Time.isBefore(end)) {
+            String refTimeStart = Provider.of<Student>(context, listen: false)
+                    .timetable[day][period]['start'] +
+                ':00';
+            String refTimeEnd = Provider.of<Student>(context, listen: false)
+                    .timetable[day][period]['end'] +
+                ':00';
+
+            if (refTimeStart.length == 7) {
+              refTimeStart = '0' + refTimeStart;
+            }
+            if (refTimeEnd.length == 7) {
+              refTimeEnd = '0' + refTimeEnd;
+            }
+            var start = DateTime.parse(d2 + ' ' + refTimeStart);
+
+            var end = DateTime.parse(d2 + ' ' + refTimeEnd);
+            if (dTime.isAfter(start) && dTime.isBefore(end)) {
               return Provider.of<Student>(context, listen: false).timetable[day]
                   [period]['name'];
             }
@@ -88,6 +100,15 @@ class _home_screeenState extends State<home_screeen> {
       return " -- -- ";
     }
 
+    SidebarXItem logout = SidebarXItem(
+      icon: Icons.logout_rounded,
+      label: 'Log out',
+      onTap: () {
+        var time = DateTime.now();
+        print("Logout Successfull at $time");
+        FirebaseAuth.instance.signOut();
+      },
+    );
     List<Widget> tiles = [
       attendance_percent_diagram(
         percentage: AvgPercentage(),
@@ -95,7 +116,7 @@ class _home_screeenState extends State<home_screeen> {
       ),
       NextPeriod(
         current: GetPeriod(DateTime.now()),
-        next: GetPeriod(DateTime.now().subtract(Duration(hours: 1))),
+        next: GetPeriod(DateTime.now().add(Duration(hours: 1))),
       ),
       attendance_percent_diagram(
         percentage: 0.7,
@@ -115,20 +136,22 @@ class _home_screeenState extends State<home_screeen> {
       attendance_tile_screen(
         percentage: AvgPercentage(),
       ),
-      GetReminder(),
+      TimeTableScreen(),
+      Reminder(),
       attendance_tile_screen(
         percentage: 0,
       ),
-      DisplayTask(),
       attendance_tile_screen(
         percentage: 0,
       ),
     ];
-    final user = FirebaseAuth.instance.currentUser!;
+    // final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: TopDrawer(),
+      drawer: TopDrawer(
+        logout: logout,
+      ),
       backgroundColor: top_bar_color,
       body:
           // height: 500,
@@ -163,8 +186,6 @@ class _home_screeenState extends State<home_screeen> {
                         onTap: () {
                           Provider.of<Student>(context, listen: false)
                               .changeFname("Captain");
-                          GetPeriod(DateTime.now());
-                          GetPeriod(DateTime.now().add(Duration(hours: 1)));
                         },
                         child:
                             SvgPicture.asset('assets/images/left_top_x.svg'))),
@@ -198,6 +219,9 @@ class _home_screeenState extends State<home_screeen> {
                       "Welcome Back!\n${Provider.of<Student>(context).fname}",
                     ),
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width / 10,
+                  ),
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -209,7 +233,7 @@ class _home_screeenState extends State<home_screeen> {
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 12,
-                          itemCount: 5,
+                          itemCount: 4,
                           itemBuilder: (context, index) {
                             return Material(
                               elevation: 4,
@@ -250,11 +274,15 @@ class _home_screeenState extends State<home_screeen> {
                             );
                           },
                           staggeredTileBuilder: (index) {
-                            return StaggeredTile.count(
-                                1, index.isEven ? 1.2 : 1.8);
+                            print(index);
+                            if (index == 3) {
+                              return StaggeredTile.count(2, 1);
+                            }
+                            return StaggeredTile.count(1, index.isEven ? 1 : 2);
                           }),
                     ),
                   ),
+                  Text("Contact us on"),
                 ],
               ),
             ),

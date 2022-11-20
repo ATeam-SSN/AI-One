@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController textValueController;

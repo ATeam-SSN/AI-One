@@ -7,7 +7,7 @@ import 'package:ssn_qos/models/task_model.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/input_field.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({Key? key, this.id}) : super(key: key);
@@ -141,7 +141,7 @@ class _AddTaskState extends State<AddTask> {
                         label: widget.id == null ? 'Save' : 'Update',
                         onTap: () {
                           _submit();
-                          Get.offAll(() => home_screeen());
+                          Navigator.pop(context);
                         })
                   ],
                 ),
