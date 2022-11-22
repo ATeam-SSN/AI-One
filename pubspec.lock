@@ -581,13 +581,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.5"
-  sprung:
-    dependency: transitive
-    description:
-      name: sprung
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   sqflite:
     dependency: "direct main"
     description:
@@ -623,13 +616,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  swipable_stack:
+  swipeable_tile:
     dependency: "direct main"
     description:
-      name: swipable_stack
+      name: swipeable_tile
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.0+2"
   synchronized:
     dependency: transitive
     description:

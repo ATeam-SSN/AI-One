@@ -58,7 +58,7 @@ dependencies:
   sqflite:
   google_fonts: ^3.0.1
   awesome_dialog: ^3.0.2
-  swipable_stack: ^2.0.0
+  swipeable_tile: ^2.0.0+2
   flutter_staggered_animations: ^1.1.1
   flutter_native_timezone: ^2.0.0
 dev_dependencies:

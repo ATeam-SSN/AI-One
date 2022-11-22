@@ -9,10 +9,10 @@ import 'package:ssn_qos/app_themes.dart';
 import 'package:ssn_qos/controllers/task_controller.dart';
 import 'package:ssn_qos/models/task_model.dart';
 import 'package:ssn_qos/screens/add_tasks.dart';
+import 'package:ssn_qos/screens/blank_template.dart';
 import 'package:ssn_qos/screens/displaytask.dart';
 import 'package:ssn_qos/services/dark_theme_service.dart';
 import 'package:ssn_qos/services/notification_helper.dart';
-
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/task.dart';
 
@@ -43,72 +43,70 @@ class _ReminderState extends State<Reminder> {
   Widget build(BuildContext context) {
     final double screenH = MediaQuery.of(context).size.height;
     final double screenW = MediaQuery.of(context).size.width;
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: context.theme.backgroundColor,
-          leading: IconButton(
-              onPressed: () {
-                ThemeService().switchTheme();
-              },
-              icon: Get.isDarkMode
-                  ? FaIcon(FontAwesomeIcons.lightbulb,
-                      size: 20.0, color: Colors.white)
-                  : FaIcon(FontAwesomeIcons.lightbulb,
-                      size: 20.0, color: Colors.yellow)),
-          actions: [],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    DateFormat.yMMMMd().format(
-                      DateTime.now(),
-                    ),
-                    style: AppThemes().subtitleStyle,
-                  ),
-                  CustomButton(
-                    color: Colors.green,
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddTask()));
-                    },
-                    label: 'Add Task',
-                  )
-                ],
-              ),
-              Text(
-                'Today',
-                style: AppThemes().titleStyle,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                child: DatePicker(
-                  DateTime.now(),
-                  height: screenH * 0.127,
-                  width: screenW * 0.18,
-                  initialSelectedDate: DateTime.now(),
-                  selectionColor: Colors.green,
-                  selectedTextColor: Colors.white,
-                  dayTextStyle: AppThemes().dayStyle,
-                  monthTextStyle: AppThemes().monthStyle,
-                  dateTextStyle: AppThemes().dateStyle,
-                  onDateChange: (date) {
-                    setState(() {
-                      _selectedDate = date;
-                    });
-                  },
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, _taskController);
+        return Future.value(false);
+      },
+      child: SafeArea(
+        child: BlankScreen(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: screenH / 20,
                 ),
-              ),
-              _showTasks()
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      DateFormat.yMMMMd().format(
+                        DateTime.now(),
+                      ),
+                      style: AppThemes().subtitleStyle,
+                    ),
+                    CustomButton(
+                      color: Colors.green,
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => AddTask()));
+                      },
+                      label: 'Add Task',
+                    )
+                  ],
+                ),
+                Text(
+                  'Today',
+                  style: AppThemes().titleStyle,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  child: DatePicker(
+                    DateTime.now(),
+                    height: screenH * 0.127,
+                    width: screenW * 0.18,
+                    initialSelectedDate: DateTime.now(),
+                    selectionColor: Colors.green,
+                    selectedTextColor: Colors.white,
+                    dayTextStyle: AppThemes().dayStyle,
+                    monthTextStyle: AppThemes().monthStyle,
+                    dateTextStyle: AppThemes().dateStyle,
+                    onDateChange: (date) {
+                      setState(() {
+                        _selectedDate = date;
+                      });
+                    },
+                  ),
+                ),
+                _showTasks()
+              ],
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   _showTasks() {
@@ -123,10 +121,10 @@ class _ReminderState extends State<Reminder> {
               itemCount: _taskController.tasksList.length,
               itemBuilder: (context, index) {
                 Task task = _taskController.tasksList[index];
+                print(task.title);
                 DateTime time =
                     DateFormat.jm().parse(task.startTime.toString());
                 var myTime = DateFormat("HH:mm").format(time);
-
                 if (task.repeat == 'Day') {
                   if (task.remind == 5) {
                     notifyHelper.scheduledNotification(

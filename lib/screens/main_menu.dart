@@ -4,10 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
+import 'package:ssn_qos/controllers/task_controller.dart';
+import 'package:ssn_qos/models/task_model.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:ssn_qos/models/student.dart';
@@ -16,11 +20,16 @@ import 'package:ssn_qos/screens/displayTask.dart';
 import 'package:ssn_qos/screens/sample.dart';
 import 'package:ssn_qos/screens/timeTable.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
+import 'package:ssn_qos/widgets/ReminderCard.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
+import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ssn_qos/app_themes.dart';
 import 'package:intl/intl.dart';
+import 'package:ssn_qos/widgets/task.dart';
+
+var notification = true;
 
 class home_screeen extends StatefulWidget {
   late double percentage = 0;
@@ -31,6 +40,7 @@ class home_screeen extends StatefulWidget {
 }
 
 class _home_screeenState extends State<home_screeen> {
+  final TaskController _taskController = Get.put(TaskController());
   @override
   void initState() {
     // TODO: implement initState
@@ -45,14 +55,34 @@ class _home_screeenState extends State<home_screeen> {
     "Total Attendance",
     "Upcoming Class",
     "Reminder",
-    "Reminder",
-    "Reminder"
+    "Notification",
   ];
 
   @override
   Widget build(BuildContext context) {
-    // print(FirebaseAuth.instance.currentUser!.email);
-    print(DateTime.parse("2022-11-20 08:50:00"));
+    int id = 0;
+    int flag = 0;
+    var NextTask = DateTime.now().add(Duration(hours: 1));
+    var initial = DateTime.now();
+    print(NextTask.isAtSameMomentAs(initial));
+    for (var task in _taskController.tasksList) {
+      var formatString = DateFormat('MM/dd/yyyy hh:mm a')
+          .parse(task.date.toString() + ' ' + task.startTime.toString());
+      print("Task date: $formatString");
+      if (DateTime.now().isBefore(formatString)) {
+        if (NextTask.isAfter(formatString)) {
+          NextTask = formatString;
+          id = task.id!;
+          flag = 1;
+        }
+        if (flag == 0) {
+          NextTask = formatString;
+          id = task.id!;
+          flag = 1;
+        }
+      }
+    }
+    print(NextTask);
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
@@ -118,19 +148,19 @@ class _home_screeenState extends State<home_screeen> {
         current: GetPeriod(DateTime.now()),
         next: GetPeriod(DateTime.now().add(Duration(hours: 1))),
       ),
-      attendance_percent_diagram(
-        percentage: 0.7,
-        rad: 40,
+      ReminderCard(
+        title: _taskController.tasksList[id - 1].title,
+        date: _taskController.tasksList[id - 1].date,
+        time: _taskController.tasksList[id - 1].startTime,
       ),
-      attendance_percent_diagram(
-        percentage: 0.7,
-        rad: 40,
+      Icon(
+        Icons.notifications_on,
+        size: 50,
       ),
-      attendance_percent_diagram(
-        percentage: 0.7,
-        rad: 40,
-      ),
-      Text("Upcoming Assignments")
+      Icon(
+        Icons.notifications_off_rounded,
+        size: 50,
+      )
     ];
     List<Widget> nextScreens = [
       attendance_tile_screen(
@@ -141,153 +171,206 @@ class _home_screeenState extends State<home_screeen> {
       attendance_tile_screen(
         percentage: 0,
       ),
-      attendance_tile_screen(
-        percentage: 0,
-      ),
     ];
     // final user = FirebaseAuth.instance.currentUser!;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: TopDrawer(
-        logout: logout,
-      ),
-      backgroundColor: top_bar_color,
-      body:
-          // height: 500,
-          SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            height: 55,
-            width: MediaQuery.of(context).size.width,
-            child: ButtonBar(
-              mainAxisSize: MainAxisSize.max,
-              alignment: MainAxisAlignment.spaceBetween,
-              // buttonPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-
-              children: [
-                Container(
-                    height: 50,
-                    width: 50,
-                    child: InkWell(
-                      onTap: () {
-                        _scaffoldKey.currentState?.openDrawer();
-                      },
-                      child: Icon(
-                        Icons.menu_rounded,
-                        size: 40,
-                        color: Colors.white,
-                      ),
-                    )),
-                Container(
-                    height: 60,
-                    width: 60,
-                    child: InkWell(
-                        onTap: () {
-                          Provider.of<Student>(context, listen: false)
-                              .changeFname("Captain");
-                        },
-                        child:
-                            SvgPicture.asset('assets/images/left_top_x.svg'))),
-                Container(
-                    height: 50,
-                    width: 50,
-                    child: InkWell(
-                        onTap: () {},
-                        child: Image.asset('assets/images/search_icon.png'))),
-              ],
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              alignment: Alignment.topCenter,
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: TopDrawer(
+          logout: logout,
+        ),
+        backgroundColor: top_bar_color,
+        body:
+            // height: 500,
+            SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: 50,
               width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 246, 248, 246),
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(43))),
-              child: Column(
+              child: ButtonBar(
+                mainAxisSize: MainAxisSize.max,
+                alignment: MainAxisAlignment.spaceBetween,
+                // buttonPadding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+
                 children: [
                   Container(
-                    height: 15,
-                  ),
-                  FittedBox(
-                    fit: BoxFit.cover,
-                    child: Text(
-                      style: AppThemes().WelcomeStyle,
-                      // "Greetings, Aadhithya!!",
-                      "Welcome Back!\n${Provider.of<Student>(context).fname}",
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width / 10,
-                  ),
+                      height: 50,
+                      width: 50,
+                      child: InkWell(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: Icon(
+                          Icons.menu_rounded,
+                          size: 40,
+                          color: Colors.white,
+                        ),
+                      )),
                   Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                    ),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 30,
-                      height: MediaQuery.of(context).size.height,
-                      child: StaggeredGridView.countBuilder(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 12,
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            return Material(
-                              elevation: 4,
-                              color: Colors.white,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              child: InkWell(
-                                splashColor: Colors.black26,
-                                child: Center(
-                                    child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Text(
-                                      caption[index],
-                                      style: AppThemes().CaptionStyle,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    tiles[index],
-                                  ],
-                                )),
-                                onTap: () {
-                                  print(number);
-                                  number += 1;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              nextScreens[index]));
-
-                                  // get_detailsFromFirebase('aadh');
-                                },
-                              ),
-                            );
+                      height: 60,
+                      width: 60,
+                      child: InkWell(
+                          onTap: () {
+                            Provider.of<Student>(context, listen: false)
+                                .changeFname("Captain");
                           },
-                          staggeredTileBuilder: (index) {
-                            print(index);
-                            if (index == 3) {
-                              return StaggeredTile.count(2, 1);
-                            }
-                            return StaggeredTile.count(1, index.isEven ? 1 : 2);
-                          }),
-                    ),
-                  ),
-                  Text("Contact us on"),
+                          child: SvgPicture.asset(
+                              'assets/images/left_top_x.svg'))),
+                  Container(
+                      height: 50,
+                      width: 50,
+                      child: InkWell(
+                          onTap: () {},
+                          child: Image.asset('assets/images/search_icon.png'))),
                 ],
               ),
             ),
-          ),
-        ]),
+            SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.topCenter,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 246, 248, 246),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(43))),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 15,
+                    ),
+                    FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text(
+                        style: AppThemes().WelcomeStyle,
+                        // "Greetings, Aadhithya!!",
+                        "Welcome Back!\n${Provider.of<Student>(context).fname}",
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width / 10,
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 30,
+                        height: MediaQuery.of(context).size.height,
+                        child: StaggeredGridView.countBuilder(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 12,
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              if (index == 3) {
+                                // print(notification);
+                                return Material(
+                                  elevation: 4,
+                                  color: Colors.white,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  child: InkWell(
+                                    splashColor: Colors.black26,
+                                    child: Center(
+                                        child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          caption[index],
+                                          style: AppThemes().CaptionStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        notification
+                                            ? tiles[index]
+                                            : tiles[index + 1],
+                                      ],
+                                    )),
+                                    onLongPress: () {
+                                      if (notification) {
+                                        setState(() {
+                                          notification = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          notification = true;
+                                        });
+                                      }
+                                    },
+                                    onTap: () {
+                                      // print(number);
+                                      number += 1;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nextScreens[index]));
+
+                                      // get_detailsFromFirebase('aadh');
+                                    },
+                                  ),
+                                );
+                              }
+                              return Material(
+                                elevation: 4,
+                                color: Colors.white,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                child: InkWell(
+                                  splashColor: Colors.black26,
+                                  child: Center(
+                                      child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Text(
+                                        caption[index],
+                                        style: AppThemes().CaptionStyle,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      tiles[index],
+                                    ],
+                                  )),
+                                  onTap: () {
+                                    // print(number);
+                                    number += 1;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                nextScreens[index]));
+
+                                    // get_detailsFromFirebase('aadh');
+                                  },
+                                ),
+                              );
+                            },
+                            staggeredTileBuilder: (index) {
+                              // print(index);
+                              if (index == 3) {
+                                return StaggeredTile.count(2, 1);
+                              }
+                              return StaggeredTile.count(
+                                  1, index.isEven ? 1 : 2);
+                            }),
+                      ),
+                    ),
+                    Text("Contact us on"),
+                  ],
+                ),
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }

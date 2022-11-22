@@ -99,7 +99,9 @@ class _attendance_percent_diagramState
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
       circularStrokeCap: CircularStrokeCap.round,
-      progressColor: Color.fromARGB(255, 169, 130, 15),
+      progressColor: double.parse(widget.percentage.toStringAsFixed(2)) > 0.75
+          ? Color.fromARGB(198, 21, 200, 12)
+          : Color.fromARGB(195, 219, 23, 13),
     );
   }
 }

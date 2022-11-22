@@ -16,7 +16,7 @@ class _NextPeriodState extends State<NextPeriod> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 144, 219, 97),
+            color: Color.fromARGB(242, 233, 3, 3),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Column(
           children: [
@@ -50,7 +50,7 @@ class _NextPeriodState extends State<NextPeriod> {
               padding: EdgeInsets.only(top: 10),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 226, 169, 85),
+                    color: Color.fromARGB(224, 229, 211, 14),
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Column(
                   children: [

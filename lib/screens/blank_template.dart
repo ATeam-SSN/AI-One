@@ -42,7 +42,9 @@ class BlankScreen extends StatelessWidget {
                   height: 50,
                   width: 50,
                   child: InkWell(
-                    onTap: null,
+                    onTap: () {
+                      _scaffoldKey.currentState?.openDrawer();
+                    },
                     child: Icon(
                       Icons.menu_rounded,
                       size: 40,

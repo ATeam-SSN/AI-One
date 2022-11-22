@@ -90,6 +90,25 @@ class NotificationHelper {
         androidAllowWhileIdle: true);
   }
 
+  scheduledClassNotification(
+      {required int hour, required int minute, required period}) async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        period.id,
+        period.name,
+        "Get Ready for the next class!!\nFaculty: ${period.faculty}",
+        _convertTime(hour, minute),
+        const NotificationDetails(
+          android: AndroidNotificationDetails('channelId', 'channelName',
+              importance: Importance.max, priority: Priority.high),
+          // iOS: IOSNotificationDetails(),
+        ),
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: '${period.id}',
+        androidAllowWhileIdle: true);
+  }
+
   timeZone.TZDateTime _convertTime(int hour, int minute) {
     timeZone.TZDateTime now = timeZone.TZDateTime.now(timeZone.local);
     timeZone.TZDateTime scheduledDate = timeZone.TZDateTime(

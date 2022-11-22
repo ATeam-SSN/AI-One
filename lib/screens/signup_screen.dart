@@ -185,7 +185,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         border: Border.all(
                                             color: Colors.blueAccent,
                                             width: 3)),
-                                    child: Center(child: Text(items)),
+                                    child: Center(
+                                        child: Text(items,
+                                            selectionColor: Color.fromARGB(
+                                                255, 255, 255, 255))),
                                   ),
                                 );
                               }).toList(),

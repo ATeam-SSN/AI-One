@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
     navigatorKey:
@@ -94,13 +94,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: TextField(
                             style: TextStyle(),
                             cursorColor: primaryColor,
-                            obscureText: true,
+                            obscureText: !_passwordVisible,
                             controller: passwordController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Colors.blue, width: 3)),
                               labelText: 'Password',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  // Based on passwordVisible state choose the icon
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context).primaryColorDark,
+                                ),
+                                onPressed: () {
+                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
                             ),
                           ),
                         ),

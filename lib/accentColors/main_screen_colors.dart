@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-var top_bar_color = Color.fromARGB(255, 6, 192, 213);
+var top_bar_color = Color.fromARGB(255, 49, 135, 241);
 const primaryColor = Colors.white;
 const canvasColor = Color.fromARGB(255, 28, 165, 46);
 // const scaffoldBackgroundColor = top_bar_color;
