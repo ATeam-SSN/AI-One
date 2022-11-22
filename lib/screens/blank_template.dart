@@ -12,6 +12,7 @@ class BlankScreen extends StatelessWidget {
   BlankScreen({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
+
     SidebarXItem logout = SidebarXItem(
       icon: Icons.logout_rounded,
       label: 'Log out',
@@ -21,6 +22,7 @@ class BlankScreen extends StatelessWidget {
         FirebaseAuth.instance.signOut();
       },
     );
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: TopDrawer(
@@ -92,6 +94,7 @@ class BlankScreen extends StatelessWidget {
           // )
         ]),
       ),
+ 
     );
   }
 }
