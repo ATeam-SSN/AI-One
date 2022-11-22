@@ -10,6 +10,10 @@ class TaskController extends GetxController {
     super.onReady();
   }
 
+  int Length({Task? task}) {
+    return tasksList.length;
+  }
+
   Future<int> addTask({Task? task}) async {
     return await SqlServices.insert(task);
   }

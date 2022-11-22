@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController textValueController;
@@ -53,6 +53,9 @@ class InputField extends StatelessWidget {
           onEditingComplete: onEditComplete as void Function()?,
           keyboardType: textInputType,
           decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               filled: true,
               suffixIcon: InkWell(
                 onTap: onSuffixTap as void Function()?,

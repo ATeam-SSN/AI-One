@@ -25,7 +25,7 @@ class Splashscreen extends StatelessWidget {
                       var data = snapshot.data!.docs[index].data()
                           as Map<String, dynamic>;
                       StudDetails.fname = data['fname'];
-                      StudDetails.lname = data['lname'];
+
                       StudDetails.dept = data['Dept'];
                       return Container(
                         color: Colors.blueAccent,

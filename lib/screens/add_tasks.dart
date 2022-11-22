@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ssn_qos/controllers/task_controller.dart';
 import 'package:ssn_qos/models/task_model.dart';
+import 'package:ssn_qos/screens/GetReminder.dart';
+import 'package:ssn_qos/screens/blank_template.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
+import 'package:ssn_qos/screens/sample.dart';
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/input_field.dart';
-import 'package:ssn_qos/accentColors/app_themes.dart';
+import 'package:ssn_qos/app_themes.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({Key? key, this.id}) : super(key: key);
@@ -53,208 +56,211 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     final double screenH = MediaQuery.of(context).size.height;
     final double screenW = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          widget.id == null ? 'Add Task' : 'Update Task',
-          style: AppThemes().subtitleStyle,
-        ),
-        backgroundColor: context.theme.backgroundColor,
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Get.off(() => home_screeen());
-            },
-            icon: Icon(Icons.arrow_back_ios,
-                size: 20.0,
-                color: Get.isDarkMode ? Colors.white : Colors.black)),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Color',
-                          style: AppThemes().labelStyle,
-                        ),
-                        Wrap(
-                          children: List<Widget>.generate(8, (int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _colorIndex = index;
-                                  });
-                                  print(_colorIndex);
-                                },
-                                child: CircleAvatar(
-                                  radius: screenW * 0.032,
-                                  backgroundColor: index == 0
-                                      ? const Color(0xff648e9a)
-                                      : index == 1
-                                          ? Color(0xFFFF80A6)
-                                          : index == 2
-                                              ? Color(0xFF3699EC)
-                                              : index == 3
-                                                  ? const Color(0xff648e9a)
-                                                  : index == 4
-                                                      ? Color(0xFFFFC04E)
-                                                      : index == 5
-                                                          ? const Color(
-                                                              0xff8c0335)
-                                                          : index == 6
-                                                              ? const Color(
-                                                                  0xff103b40)
-                                                              : Color(
-                                                                  0xff191A19),
-                                  child: index == _colorIndex
-                                      ? Icon(
-                                          Icons.done,
-                                          color: Colors.white,
-                                          size: 20.0,
-                                        )
-                                      : Container(
-                                          height: 0,
-                                          width: 0,
-                                        ),
-                                ),
-                              ),
-                            );
-                          }),
-                        )
-                      ],
-                    ),
-                    CustomButton(
-                        color: Colors.green,
-                        label: widget.id == null ? 'Save' : 'Update',
-                        onTap: () {
-                          _submit();
-                          Get.offAll(() => home_screeen());
-                        })
-                  ],
-                ),
-                InputField(
-                  textValueController: titleController,
-                  node: titleNode,
-                  label: 'Title',
-                  hint: 'Add Task Title',
-                  suffixIcon: Container(
-                    height: 0.0,
-                    width: 0.0,
-                  ),
-                  onValidate: (value) {
-                    if (value.isEmpty) {
-                      return "Don't forget to add Title";
-                    }
-                    return null;
-                  },
-                ),
-                InputField(
-                  textValueController: taskBodyController,
-                  node: taskBodyNode,
-                  maxLine: 5,
-                  label: 'Content',
-                  hint: 'Add Task content',
-                  suffixIcon: Container(
-                    height: 0.0,
-                    width: 0.0,
-                  ),
-                  onValidate: (value) {
-                    if (value.isEmpty) {
-                      return "Don't forget to add Task to do";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: screenH * 0.08,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InputField(
-                        textValueController: dateController,
-                        node: dateNode,
-                        label: 'Date',
-                        hint: '$dateController',
-                        suffixIcon: Icon(
-                          FontAwesomeIcons.calendar,
-                          color: Colors.green,
-                        ),
-                        onSuffixTap: () {
-                          _getDate();
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Expanded(
-                      child: InputField(
-                        textValueController: startTimeController,
-                        node: startTimeNode,
-                        label: 'Start time',
-                        hint: '$_currentTime',
-                        suffixIcon: Icon(
-                          Icons.watch_later_outlined,
-                          color: Colors.green,
-                        ),
-                        onSuffixTap: () {
-                          _getTime();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InputField(
-                        textValueController: remindController,
-                        node: remindNode,
-                        label: 'Remind me ',
-                        hint: '$remindController',
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: _showMinutesList(),
-                        ),
-                        onSuffixTap: () {},
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Expanded(
-                      child: InputField(
-                        textValueController: repeatController,
-                        node: repeatNode,
-                        label: 'Repeat every ',
-                        hint: '$repeatController',
-                        onValidate: (value) {},
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: _showRepeatList(),
-                        ),
-                        onSuffixTap: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+    return SafeArea(
+      child: BlankScreen(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ),
+            Text(
+              widget.id == null ? 'Add Task' : 'Update Task',
+              style: AppThemes().subtitleStyle,
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Color',
+                                style: AppThemes().labelStyle,
+                              ),
+                              Wrap(
+                                children: List<Widget>.generate(8, (int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _colorIndex = index;
+                                        });
+                                        print(_colorIndex);
+                                      },
+                                      child: CircleAvatar(
+                                        radius: screenW * 0.032,
+                                        backgroundColor: index == 0
+                                            ? const Color(0xff648e9a)
+                                            : index == 1
+                                                ? Color(0xFFFF80A6)
+                                                : index == 2
+                                                    ? Color(0xFF3699EC)
+                                                    : index == 3
+                                                        ? const Color(
+                                                            0xff648e9a)
+                                                        : index == 4
+                                                            ? Color(0xFFFFC04E)
+                                                            : index == 5
+                                                                ? const Color(
+                                                                    0xff8c0335)
+                                                                : index == 6
+                                                                    ? const Color(
+                                                                        0xff103b40)
+                                                                    : Color(
+                                                                        0xff191A19),
+                                        child: index == _colorIndex
+                                            ? Icon(
+                                                Icons.done,
+                                                color: Colors.white,
+                                                size: 20.0,
+                                              )
+                                            : Container(
+                                                height: 0,
+                                                width: 0,
+                                              ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              )
+                            ],
+                          ),
+                          CustomButton(
+                              color: Colors.green,
+                              label: widget.id == null ? 'Save' : 'Update',
+                              onTap: () {
+                                _submit();
+                                // Get.offAll(Reminder());
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => Reminder()));
+                                Navigator.pop(context);
+                              })
+                        ],
+                      ),
+                      InputField(
+                        textValueController: titleController,
+                        node: titleNode,
+                        label: 'Title',
+                        hint: 'Add Task Title',
+                        suffixIcon: Container(
+                          height: 0.0,
+                          width: 0.0,
+                        ),
+                        onValidate: (value) {
+                          if (value.isEmpty) {
+                            return "Don't forget to add Title";
+                          }
+                          return null;
+                        },
+                      ),
+                      InputField(
+                        textValueController: taskBodyController,
+                        node: taskBodyNode,
+                        maxLine: 5,
+                        label: 'Content',
+                        hint: 'Add Task content',
+                        suffixIcon: Container(
+                          height: 0.0,
+                          width: 0.0,
+                        ),
+                        onValidate: (value) {
+                          if (value.isEmpty) {
+                            return "Don't forget to add Task to do";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: screenH * 0.08,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InputField(
+                              textValueController: dateController,
+                              node: dateNode,
+                              label: 'Date',
+                              hint: '$dateController',
+                              suffixIcon: Icon(
+                                FontAwesomeIcons.calendar,
+                                color: Colors.green,
+                              ),
+                              onSuffixTap: () {
+                                _getDate();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: InputField(
+                              textValueController: startTimeController,
+                              node: startTimeNode,
+                              label: 'Start time',
+                              hint: '$_currentTime',
+                              suffixIcon: Icon(
+                                Icons.watch_later_outlined,
+                                color: Colors.green,
+                              ),
+                              onSuffixTap: () {
+                                _getTime();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InputField(
+                              textValueController: remindController,
+                              node: remindNode,
+                              label: 'Remind me ',
+                              hint: '$remindController',
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: _showMinutesList(),
+                              ),
+                              onSuffixTap: () {},
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: InputField(
+                              textValueController: repeatController,
+                              node: repeatNode,
+                              label: 'Repeat every ',
+                              hint: '$repeatController',
+                              onValidate: (value) {},
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: _showRepeatList(),
+                              ),
+                              onSuffixTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
