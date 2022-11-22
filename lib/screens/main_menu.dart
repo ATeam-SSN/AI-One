@@ -14,13 +14,18 @@ import 'package:ssn_qos/controllers/task_controller.dart';
 import 'package:ssn_qos/models/task_model.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
+ 
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/GetReminder.dart';
 import 'package:ssn_qos/screens/displayTask.dart';
 import 'package:ssn_qos/screens/sample.dart';
 import 'package:ssn_qos/screens/timeTable.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
+<<<<<<< HEAD
 import 'package:ssn_qos/widgets/ReminderCard.dart';
+=======
+ 
+>>>>>>> origin
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
@@ -50,6 +55,7 @@ class _home_screeenState extends State<home_screeen> {
   var number = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+ 
 
   List<String> caption = [
     "Total Attendance",
