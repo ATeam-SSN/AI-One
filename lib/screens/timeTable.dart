@@ -247,8 +247,6 @@ class TimeTable extends StatelessWidget {
                           Provider.of<Student>(context, listen: false)
                                   .timetable[day][Subjects[index]]['end'] +
                               ':00';
-                      // print(Provider.of<Student>(context, listen: false)
-                      //     .timetable[day][Subjects[index]]);
                       if (refTimeStart.length == 7) {
                         refTimeStart = '0' + refTimeStart;
                       }
@@ -257,7 +255,7 @@ class TimeTable extends StatelessWidget {
                       }
                       var start = DateTime.parse(d2 + ' ' + refTimeStart);
                       var end = DateTime.parse(d2 + ' ' + refTimeEnd);
-                      print(end);
+
                       if (DateTime.now().isAfter(end)) {
                         return TimeTableTile(
                           subject_name: allTimeTable[day][Subjects[index]]
@@ -276,8 +274,6 @@ class TimeTable extends StatelessWidget {
                         if (time.length == 4) {
                           time = '0' + time;
                         }
-                        print(time);
-                        print(period);
                         notifyHelper.scheduledClassNotification(
                             hour: int.parse(time.split(":")[0]),
                             minute: (int.parse(time.split(":")[1]) - 5).abs(),

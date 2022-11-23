@@ -10,30 +10,35 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
     Map<String, dynamic> timetable = {
       "Sunday": {
         "sub1": {
+          "id": "6",
           "name": "Elective",
           "start": "8:00",
           "end": "8:50",
           "Faculty": "Prof. Chithra",
         },
         "sub2": {
+          "id": "2",
           "name": "UIT1502 - Principles of Operating Systems",
           "start": "8:50",
           "end": "9:40",
           "Faculty": "Prof. Chithra",
         },
         "sub3": {
+          "id": "4",
           "name": "UIT1504 - Digital Signal Processing",
           "start": "10:05",
           "end": "10:55",
           "Faculty": "Prof. Chithra",
         },
         "sub4": {
+          "id": "6",
           "name": "Elective",
           "start": "10:55",
           "end": "11:45",
           "Faculty": "Prof. Chithra",
         },
         "sub5": {
+          "id": "6",
           "name": "Elective",
           "start": "12:45",
           "end": "13:35",
@@ -41,12 +46,14 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
         },
         "sub6": {
           "name": "Elective",
+          "id": "6",
           "start": "13:35",
           "end": "14:25",
           "Faculty": "Prof. Chithra",
         },
         "sub7": {
           "name": "Elective",
+          "id": "6",
           "start": "14:50",
           "end": "15:40",
           "Faculty": "Prof. Chithra",
@@ -54,30 +61,35 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
       },
       "Monday": {
         "sub1": {
+          "id": "6",
           "name": "Elective",
           "start": "8:00",
           "end": "8:50",
           "Faculty": "Prof. Chithra",
         },
         "sub2": {
+          "id": "2",
           "name": "UIT1502 - Principles of Operating Systems",
           "start": "8:50",
           "end": "9:40",
           "Faculty": "Prof. Chithra",
         },
         "sub3": {
+          "id": "4",
           "name": "UIT1504 - Digital Signal Processing",
           "start": "10:05",
           "end": "10:55",
           "Faculty": "Prof. Chithra",
         },
         "sub4": {
+          "id": "6",
           "name": "Elective",
           "start": "10:55",
           "end": "11:45",
           "Faculty": "Prof. Chithra",
         },
         "sub5": {
+          "id": "6",
           "name": "Elective",
           "start": "12:45",
           "end": "13:35",
@@ -85,12 +97,14 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
         },
         "sub6": {
           "name": "Elective",
+          "id": "6",
           "start": "13:35",
           "end": "14:25",
           "Faculty": "Prof. Chithra",
         },
         "sub7": {
           "name": "Elective",
+          "id": "6",
           "start": "14:50",
           "end": "15:40",
           "Faculty": "Prof. Chithra",
@@ -98,30 +112,35 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
       },
       "Tuesday": {
         "sub1": {
+          "id": "6",
           "name": "Elective",
           "start": "8:00",
           "end": "8:50",
           "Faculty": "Prof. Chithra",
         },
         "sub2": {
+          "id": "2",
           "name": "UIT1502 - Principles of Operating Systems",
           "start": "8:50",
           "end": "9:40",
           "Faculty": "Prof. Chithra",
         },
         "sub3": {
+          "id": "4",
           "name": "UIT1504 - Digital Signal Processing",
           "start": "10:05",
           "end": "10:55",
           "Faculty": "Prof. Chithra",
         },
         "sub4": {
+          "id": "6",
           "name": "Elective",
           "start": "10:55",
           "end": "11:45",
           "Faculty": "Prof. Chithra",
         },
         "sub5": {
+          "id": "6",
           "name": "Elective",
           "start": "12:45",
           "end": "13:35",
@@ -129,56 +148,65 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
         },
         "sub6": {
           "name": "Elective",
-          "start": "13:35",
-          "end": "22:40",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub7": {
-          "name": "Elective",
-          "start": "23:05",
-          "end": "23:40",
-          "Faculty": "Prof. Chithra",
-        },
-      },
-      "Wednesday": {
-        "sub1": {
-          "name": "Elective",
-          "start": "8:00",
-          "end": "8:50",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub2": {
-          "name": "UIT1502 - Principles of Operating Systems",
-          "start": "8:50",
-          "end": "9:40",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub3": {
-          "name": "UIT1504 - Digital Signal Processing",
-          "start": "10:05",
-          "end": "10:55",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub4": {
-          "name": "Elective",
-          "start": "10:55",
-          "end": "11:45",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub5": {
-          "name": "Elective",
-          "start": "12:45",
-          "end": "13:35",
-          "Faculty": "Prof. Chithra",
-        },
-        "sub6": {
-          "name": "Elective",
+          "id": "6",
           "start": "13:35",
           "end": "14:25",
           "Faculty": "Prof. Chithra",
         },
         "sub7": {
           "name": "Elective",
+          "id": "6",
+          "start": "14:50",
+          "end": "15:40",
+          "Faculty": "Prof. Chithra",
+        },
+      },
+      "Wednesday": {
+        "sub1": {
+          "id": "6",
+          "name": "Elective",
+          "start": "8:00",
+          "end": "8:50",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub2": {
+          "id": "2",
+          "name": "UIT1502 - Principles of Operating Systems",
+          "start": "8:50",
+          "end": "9:40",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub3": {
+          "id": "4",
+          "name": "UIT1504 - Digital Signal Processing",
+          "start": "10:05",
+          "end": "10:55",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub4": {
+          "id": "6",
+          "name": "Elective",
+          "start": "10:55",
+          "end": "11:45",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub5": {
+          "id": "6",
+          "name": "Elective",
+          "start": "12:45",
+          "end": "13:35",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub6": {
+          "name": "Elective",
+          "id": "6",
+          "start": "13:35",
+          "end": "14:25",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub7": {
+          "name": "Elective",
+          "id": "6",
           "start": "14:50",
           "end": "15:40",
           "Faculty": "Prof. Chithra",
@@ -186,30 +214,35 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
       },
       "Thursday": {
         "sub1": {
+          "id": "6",
           "name": "Elective",
           "start": "8:00",
           "end": "8:50",
           "Faculty": "Prof. Chithra",
         },
         "sub2": {
+          "id": "2",
           "name": "UIT1502 - Principles of Operating Systems",
           "start": "8:50",
           "end": "9:40",
           "Faculty": "Prof. Chithra",
         },
         "sub3": {
+          "id": "4",
           "name": "UIT1504 - Digital Signal Processing",
           "start": "10:05",
           "end": "10:55",
           "Faculty": "Prof. Chithra",
         },
         "sub4": {
+          "id": "6",
           "name": "Elective",
           "start": "10:55",
           "end": "11:45",
           "Faculty": "Prof. Chithra",
         },
         "sub5": {
+          "id": "6",
           "name": "Elective",
           "start": "12:45",
           "end": "13:35",
@@ -217,12 +250,14 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
         },
         "sub6": {
           "name": "Elective",
+          "id": "6",
           "start": "13:35",
           "end": "14:25",
           "Faculty": "Prof. Chithra",
         },
         "sub7": {
           "name": "Elective",
+          "id": "6",
           "start": "14:50",
           "end": "15:40",
           "Faculty": "Prof. Chithra",
@@ -230,30 +265,35 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
       },
       "Friday": {
         "sub1": {
+          "id": "6",
           "name": "Elective",
           "start": "8:00",
           "end": "8:50",
           "Faculty": "Prof. Chithra",
         },
         "sub2": {
+          "id": "2",
           "name": "UIT1502 - Principles of Operating Systems",
           "start": "8:50",
           "end": "9:40",
           "Faculty": "Prof. Chithra",
         },
         "sub3": {
+          "id": "4",
           "name": "UIT1504 - Digital Signal Processing",
           "start": "10:05",
           "end": "10:55",
           "Faculty": "Prof. Chithra",
         },
         "sub4": {
+          "id": "6",
           "name": "Elective",
           "start": "10:55",
           "end": "11:45",
           "Faculty": "Prof. Chithra",
         },
         "sub5": {
+          "id": "6",
           "name": "Elective",
           "start": "12:45",
           "end": "13:35",
@@ -261,12 +301,65 @@ Map<String, dynamic> GetTimeTable(String dept, String Section) {
         },
         "sub6": {
           "name": "Elective",
+          "id": "6",
           "start": "13:35",
           "end": "14:25",
           "Faculty": "Prof. Chithra",
         },
         "sub7": {
           "name": "Elective",
+          "id": "6",
+          "start": "14:50",
+          "end": "15:40",
+          "Faculty": "Prof. Chithra",
+        },
+      },
+      "Saturday": {
+        "sub1": {
+          "id": "6",
+          "name": "Elective",
+          "start": "8:00",
+          "end": "8:50",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub2": {
+          "id": "2",
+          "name": "UIT1502 - Principles of Operating Systems",
+          "start": "8:50",
+          "end": "9:40",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub3": {
+          "id": "4",
+          "name": "UIT1504 - Digital Signal Processing",
+          "start": "10:05",
+          "end": "10:55",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub4": {
+          "id": "6",
+          "name": "Elective",
+          "start": "10:55",
+          "end": "11:45",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub5": {
+          "id": "6",
+          "name": "Elective",
+          "start": "12:45",
+          "end": "13:35",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub6": {
+          "name": "Elective",
+          "id": "6",
+          "start": "13:35",
+          "end": "14:25",
+          "Faculty": "Prof. Chithra",
+        },
+        "sub7": {
+          "name": "Elective",
+          "id": "6",
           "start": "14:50",
           "end": "15:40",
           "Faculty": "Prof. Chithra",
@@ -294,10 +387,41 @@ class Student extends ChangeNotifier {
 
   void changeFname(String newName) async {
     fname = newName;
+    print("Test inside Changefname");
     FirebaseFirestore.instance
         .collection('users')
         .doc("aadh")
         .update({"fname": newName});
+
+    notifyListeners();
+  }
+
+  void changeAttendance(
+      String day, String sub, int attended, int total, String id) async {
+    // fname = newName;
+    print("Attended:" + attended.toString());
+    FirebaseFirestore.instance.collection('users').doc("aadh").update({
+      "attd": {
+        sub: {
+          "attended": attended + 1,
+        }
+      }
+    });
+
+    notifyListeners();
+  }
+
+  void classHappened(String sub, int total, String id) async {
+    // fname = newName;
+    print("Total:" + total.toString());
+
+    FirebaseFirestore.instance.collection('users').doc("aadh").update({
+      "attd": {
+        sub: {
+          "total": total + 1,
+        }
+      }
+    });
 
     notifyListeners();
   }

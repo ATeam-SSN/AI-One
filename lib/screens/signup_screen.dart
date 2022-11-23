@@ -289,8 +289,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future SignUp() async {
-    // final isValid = formKey.currentState!.validate();
-    // if (!isValid) return;
     try {
       print(emailController.text);
       print(passwordController.text);

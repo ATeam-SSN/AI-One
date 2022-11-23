@@ -16,8 +16,6 @@ import 'package:ssn_qos/services/notification_helper.dart';
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/task.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
 class Reminder extends StatefulWidget {
   const Reminder({Key? key}) : super(key: key);
 
@@ -27,6 +25,8 @@ class Reminder extends StatefulWidget {
 
 class _ReminderState extends State<Reminder> {
   final TaskController _taskController = Get.put(TaskController());
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
 
   DateTime _selectedDate = DateTime.now();
   var notifyHelper;
@@ -68,6 +68,7 @@ class _ReminderState extends State<Reminder> {
                       style: AppThemes().subtitleStyle,
                     ),
                     CustomButton(
+                      icon: Icons.add_task,
                       color: Colors.green,
                       onTap: () {
                         Navigator.push(context,

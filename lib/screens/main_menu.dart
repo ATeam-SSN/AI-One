@@ -14,18 +14,17 @@ import 'package:ssn_qos/controllers/task_controller.dart';
 import 'package:ssn_qos/models/task_model.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:provider/provider.dart';
- 
+
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/GetReminder.dart';
 import 'package:ssn_qos/screens/displayTask.dart';
 import 'package:ssn_qos/screens/sample.dart';
 import 'package:ssn_qos/screens/timeTable.dart';
+import 'package:ssn_qos/screens/updateAttendance.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
-<<<<<<< HEAD
+
 import 'package:ssn_qos/widgets/ReminderCard.dart';
-=======
- 
->>>>>>> origin
+
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
@@ -55,7 +54,6 @@ class _home_screeenState extends State<home_screeen> {
   var number = 0;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
- 
 
   List<String> caption = [
     "Total Attendance",
@@ -68,6 +66,7 @@ class _home_screeenState extends State<home_screeen> {
   Widget build(BuildContext context) {
     int id = 0;
     int flag = 0;
+
     var NextTask = DateTime.now().add(Duration(hours: 1));
     var initial = DateTime.now();
     print(NextTask.isAtSameMomentAs(initial));
@@ -92,10 +91,12 @@ class _home_screeenState extends State<home_screeen> {
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
+      print(Provider.of<Student>(context).attendance['1']['attended']);
       for (var sub in Provider.of<Student>(context).attendance.keys) {
         i += 1;
         percent += Provider.of<Student>(context).attendance[sub]['attended'] /
             Provider.of<Student>(context).attendance[sub]['total'];
+        print("Percent: $percent");
       }
       percent /= i;
       return double.parse(percent.toStringAsFixed(2));
@@ -155,9 +156,9 @@ class _home_screeenState extends State<home_screeen> {
         next: GetPeriod(DateTime.now().add(Duration(hours: 1))),
       ),
       ReminderCard(
-        title: _taskController.tasksList[id - 1].title,
-        date: _taskController.tasksList[id - 1].date,
-        time: _taskController.tasksList[id - 1].startTime,
+        title: id != 0 ? _taskController.tasksList[id - 1].title : "-----",
+        date: id != 0 ? _taskController.tasksList[id - 1].date : "-----",
+        time: id != 0 ? _taskController.tasksList[id - 1].startTime : "-----",
       ),
       Icon(
         Icons.notifications_on,
@@ -174,9 +175,7 @@ class _home_screeenState extends State<home_screeen> {
       ),
       TimeTableScreen(),
       Reminder(),
-      attendance_tile_screen(
-        percentage: 0,
-      ),
+      UpdateAttendance()
     ];
     // final user = FirebaseAuth.instance.currentUser!;
 
@@ -234,6 +233,7 @@ class _home_screeenState extends State<home_screeen> {
             ),
             SingleChildScrollView(
               child: Container(
+                // height: MediaQuery.of(context).size.height,
                 alignment: Alignment.topCenter,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
@@ -254,7 +254,7 @@ class _home_screeenState extends State<home_screeen> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.width / 10,
+                      height: MediaQuery.of(context).size.width / 25,
                     ),
                     Container(
                       decoration: const BoxDecoration(
@@ -290,7 +290,7 @@ class _home_screeenState extends State<home_screeen> {
                                           style: AppThemes().CaptionStyle,
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: 40,
                                         ),
                                         notification
                                             ? tiles[index]

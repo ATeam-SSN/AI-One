@@ -5,14 +5,11 @@ import 'package:sidebarx/sidebarx.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/widgets/navigation_drawer.dart';
 
-final _scaffoldKey = GlobalKey<ScaffoldState>();
-
 class BlankScreen extends StatelessWidget {
   Widget child;
   BlankScreen({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     SidebarXItem logout = SidebarXItem(
       icon: Icons.logout_rounded,
       label: 'Log out',
@@ -22,9 +19,8 @@ class BlankScreen extends StatelessWidget {
         FirebaseAuth.instance.signOut();
       },
     );
-=======
- 
->>>>>>> origin
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: TopDrawer(
@@ -96,7 +92,6 @@ class BlankScreen extends StatelessWidget {
           // )
         ]),
       ),
- 
     );
   }
 }
