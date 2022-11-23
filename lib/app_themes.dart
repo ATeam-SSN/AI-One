@@ -77,6 +77,20 @@ class AppThemes {
     return GoogleFonts.bitter(fontSize: 12, fontWeight: FontWeight.w500);
   }
 
+  TextStyle get dateStyleT {
+    return GoogleFonts.bitter(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        color: Color.fromARGB(255, 140, 135, 135));
+  }
+
+  TextStyle get dayStyleT {
+    return GoogleFonts.bitter(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: Color.fromARGB(255, 140, 135, 135));
+  }
+
   TextStyle get PeriodLabelStyle {
     return GoogleFonts.bitter(
       fontSize: 18,
@@ -108,6 +122,13 @@ class AppThemes {
   TextStyle get WelcomeStyle {
     return GoogleFonts.lato(
       fontSize: 42,
+      fontWeight: FontWeight.w900,
+    );
+  }
+
+  TextStyle get NotifyStyle {
+    return GoogleFonts.lato(
+      fontSize: 30,
       fontWeight: FontWeight.w900,
     );
   }

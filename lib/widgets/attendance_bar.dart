@@ -54,10 +54,20 @@ class _IndividualCourseState extends State<IndividualCourse> {
                     LinearPercentIndicator(
                       barRadius: Radius.circular(14),
                       animation: true,
-                      center: Text("hello"),
+                      center: Text((Attendance[index]['attended'] /
+                                  Attendance[index]['total'] *
+                                  100)
+                              .toStringAsFixed(2) +
+                          " %"),
                       backgroundColor: Colors.transparent,
-                      progressColor: listcolors[index],
-                      restartAnimation: true,
+                      progressColor: double.parse((Attendance[index]
+                                          ['attended'] /
+                                      Attendance[index]['total'])
+                                  .toStringAsFixed(2)) >
+                              0.75
+                          ? Color.fromARGB(197, 74, 188, 68)
+                          : Color.fromARGB(195, 234, 86, 78),
+                      // restartAnimation: true,
                       lineHeight: 20,
                       percent: Attendance[index]['attended'] /
                           Attendance[index]['total'],
@@ -100,8 +110,8 @@ class _attendance_percent_diagramState
       ),
       circularStrokeCap: CircularStrokeCap.round,
       progressColor: double.parse(widget.percentage.toStringAsFixed(2)) > 0.75
-          ? Color.fromARGB(198, 21, 200, 12)
-          : Color.fromARGB(195, 219, 23, 13),
+          ? Color.fromARGB(197, 74, 188, 68)
+          : Color.fromARGB(195, 234, 86, 78),
     );
   }
 }

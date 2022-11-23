@@ -12,6 +12,8 @@ import 'package:ssn_qos/widgets/custom_button.dart';
 import 'package:ssn_qos/widgets/input_field.dart';
 import 'package:ssn_qos/app_themes.dart';
 
+GlobalKey<FormState> formKey = GlobalKey();
+
 class AddTask extends StatefulWidget {
   const AddTask({Key? key, this.id}) : super(key: key);
   final int? id;
@@ -41,7 +43,6 @@ class _AddTaskState extends State<AddTask> {
   List<int> remindList = [5, 10, 15, 20];
   List<String> repeatList = ['never', 'Day', 'Week', 'Month'];
   int _colorIndex = 0;
-  GlobalKey<FormState> formKey = GlobalKey();
   @override
   void initState() {
     dateController.text = DateFormat.yMd().format(date);
@@ -135,6 +136,7 @@ class _AddTaskState extends State<AddTask> {
                             ],
                           ),
                           CustomButton(
+                              icon: Icons.save,
                               color: Colors.green,
                               label: widget.id == null ? 'Save' : 'Update',
                               onTap: () {

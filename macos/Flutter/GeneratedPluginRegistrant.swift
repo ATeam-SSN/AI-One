@@ -5,7 +5,6 @@
 import FlutterMacOS
 import Foundation
 
- 
 import cloud_firestore
 import firebase_auth
 import firebase_core
@@ -24,8 +23,4 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterNativeTimezonePlugin.register(with: registry.registrar(forPlugin: "FlutterNativeTimezonePlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
- 
-
-func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
- 
 }

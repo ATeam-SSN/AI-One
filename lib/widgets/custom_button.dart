@@ -6,8 +6,10 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final double? height;
   final double? width;
+  var icon;
   CustomButton(
       {required this.label,
+      this.icon,
       this.width,
       this.height,
       required this.color,
@@ -21,8 +23,15 @@ class CustomButton extends StatelessWidget {
       color: color,
       onPressed: onTap,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.delete),
+          Icon(
+            icon,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 5,
+          ),
           Text(
             '$label',
             style: TextStyle(color: Colors.white),

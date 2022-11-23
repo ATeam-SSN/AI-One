@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
       ),
-      home: SafeArea(top: true, child: home_screeen()),
+      home: SafeArea(top: true, child: MainPage()),
     );
   }
 }

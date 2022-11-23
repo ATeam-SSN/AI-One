@@ -180,19 +180,6 @@ class _LoginScreenState extends State<LoginScreen> {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: nameController.text.trim(),
           password: passwordController.text.trim());
-      // AwesomeDialog(
-      //   context: context,
-      //   dialogType: DialogType.success,
-      //   animType: AnimType.rightSlide,
-      //   title: 'Login Succesful',
-      //   btnOkOnPress: () {
-      //     Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) =>
-      //                 SafeArea(top: true, child: home_screeen())));
-      //   },
-      // )..show();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
