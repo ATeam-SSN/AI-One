@@ -19,6 +19,7 @@ class BlankScreen extends StatelessWidget {
         FirebaseAuth.instance.signOut();
       },
     );
+
     final _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
