@@ -15,7 +15,7 @@ class UpdateAttendance extends StatefulWidget {
 List<Widget> UpdateList = [
   PendingUpdateTile(date: "23-11-2022", day: "Wednesday", turned: 1),
   PendingUpdateTile(date: "24-11-2022", day: "Thursday", turned: 0),
-  PendingUpdateTile(date: "23-11-2022", day: "Wednesday", turned: 0)
+  // PendingUpdateTile(date: "23-11-2022", day: "Wednesday", turned: 0)
 ];
 
 class _UpdateAttendanceState extends State<UpdateAttendance> {
@@ -122,6 +122,7 @@ class _PendingUpdateTileState extends State<PendingUpdateTile> {
                   ),
                 ],
               ),
+              Spacer(),
               Checkbox(
                 checkColor: Colors.white,
                 fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -259,6 +260,7 @@ class _DaysAttendanceState extends State<DaysAttendance> {
     Subjects.sort();
     Subjects = Subjects.toSet().toList();
     print(Subjects);
+    print(AttdDetails[DaysTimeTable["sub1"]['id']]);
     return SafeArea(
         child: BlankScreen(
             child: Container(
@@ -306,7 +308,7 @@ class _DaysAttendanceState extends State<DaysAttendance> {
                         for (var i in DaysTimeTable.keys) {
                           Provider.of<Student>(context, listen: false)
                               .classHappened(
-                                  widget.day,
+                                  AttdDetails[DaysTimeTable[i]['id']],
                                   AttdDetails[DaysTimeTable[i]['id']]['total'],
                                   DaysTimeTable[i]['id']);
                         }

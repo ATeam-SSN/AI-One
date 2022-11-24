@@ -118,7 +118,10 @@ class NotificationHelper {
 
   Future<void> _configLocalTimeZone() async {
     timeZone.initializeTimeZones();
-    final String locationName = await FlutterNativeTimezone.getLocalTimezone();
+    String locationName = await FlutterNativeTimezone.getLocalTimezone();
+    if (locationName == "Asia/Calcutta") {
+      locationName = "Asia/Kolkata";
+    }
     timeZone.setLocalLocation(timeZone.getLocation(locationName));
   }
 }

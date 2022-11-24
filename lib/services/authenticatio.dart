@@ -22,6 +22,7 @@ class _MainPageState extends State<MainPage> {
     void SetTimeTable() {
       final referStudent = FirebaseFirestore.instance.collection('users');
       referStudent.doc("aadh").set({
+        // "attd": AllSubjects(Provider.of<Student>(context).dept),
         "timtable": GetTimeTable(Provider.of<Student>(context).dept,
             Provider.of<Student>(context).section)
       }, SetOptions(merge: true));

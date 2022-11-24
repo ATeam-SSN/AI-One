@@ -274,12 +274,18 @@ class TimeTable extends StatelessWidget {
                         if (time.length == 4) {
                           time = '0' + time;
                         }
-                        notifyHelper.scheduledClassNotification(
-                            hour: int.parse(time.split(":")[0]),
-                            minute: (int.parse(time.split(":")[1]) - 5).abs(),
-                            period: period);
+                        try {
+                          notifyHelper.scheduledClassNotification(
+                              hour: int.parse(time.split(":")[0]),
+                              minute: (int.parse(time.split(":")[1]) - 5).abs(),
+                              period: period);
+                        } catch (e) {
+                          print(e);
+                        }
+
                         return TimeTableTile(
-                          subject_name: allTimeTable[day][2]['name'],
+                          subject_name: allTimeTable[day][Subjects[index]]
+                              ['name'],
                           strike: 0,
                         );
                       }

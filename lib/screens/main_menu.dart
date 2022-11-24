@@ -88,6 +88,8 @@ class _home_screeenState extends State<home_screeen> {
       }
     }
     print(NextTask);
+    final user = FirebaseAuth.instance.currentUser!;
+    print(user.email);
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
@@ -177,7 +179,6 @@ class _home_screeenState extends State<home_screeen> {
       Reminder(),
       UpdateAttendance()
     ];
-    // final user = FirebaseAuth.instance.currentUser!;
 
     return SafeArea(
       child: Scaffold(

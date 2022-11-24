@@ -2,6 +2,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+Map<String, dynamic> AllSubjects(String dept) {
+  Map<String, dynamic> Subjects = {};
+  if (dept == "BTech IT") {
+    Map<String, dynamic> Subjects = {
+      "1": {
+        "name": "UIT1501 - FAT",
+        "total": 0,
+        "attended": 0,
+      },
+      "2": {
+        "name": "UIT1502 - CN",
+        "total": 0,
+        "attended": 0,
+      },
+      "3": {
+        "name": "UIT1503 - OS",
+        "total": 0,
+        "attended": 0,
+      },
+      "4": {
+        "name": "UIT1504 - DSP",
+        "total": 0,
+        "attended": 0,
+      },
+      "5": {
+        "name": "UIT1505 - AI",
+        "total": 0,
+        "attended": 0,
+      },
+      "6": {
+        "name": "UIT1521 - Elective",
+        "total": 0,
+        "attended": 0,
+      },
+    };
+  }
+  return Subjects;
+}
+
 Map<String, dynamic> GetTimeTable(String dept, String Section) {
   Map<String, dynamic> timetable = {};
   print(dept);
@@ -388,10 +427,9 @@ class Student extends ChangeNotifier {
   void changeFname(String newName) async {
     fname = newName;
     print("Test inside Changefname");
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc("aadh")
-        .update({"fname": newName});
+    FirebaseFirestore.instance.collection('users').doc("aadh").set(
+      {"fname": newName},
+    );
 
     notifyListeners();
   }
@@ -402,7 +440,7 @@ class Student extends ChangeNotifier {
     print("Attended:" + attended.toString());
     FirebaseFirestore.instance.collection('users').doc("aadh").update({
       "attd": {
-        sub: {
+        id: {
           "attended": attended + 1,
         }
       }
@@ -417,7 +455,7 @@ class Student extends ChangeNotifier {
 
     FirebaseFirestore.instance.collection('users').doc("aadh").update({
       "attd": {
-        sub: {
+        id: {
           "total": total + 1,
         }
       }
