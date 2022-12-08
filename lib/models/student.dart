@@ -2,10 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+Map<String, dynamic> Getattendance(String dept, String Section) {
+  var subjects = [
+    "Elective",
+    "UIT1502 - Principles of Operating Systems",
+    "UIT1504 - Digital Signal Processing"
+  ];
+  Map<String, dynamic> attendance = {
+    "6": {"name": subjects[0], "total": 0, "attended": 0},
+    "2": {"name": subjects[1], "total": 0, "attended": 0},
+    "4": {"name": subjects[2], "total": 0, "attended": 0},
+  };
+  return attendance;
+}
+
 Map<String, dynamic> GetTimeTable(String dept, String Section) {
   Map<String, dynamic> timetable = {};
   print(dept);
   print(Section);
+
   if (dept == "BTech IT" && Section == "A") {
     Map<String, dynamic> timetable = {
       "Sunday": {

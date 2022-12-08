@@ -21,6 +21,9 @@ Future<void> main() async {
   await GetStorage.init();
   await Firebase.initializeApp();
   FirebaseOPS firebaseOps = FirebaseOPS();
+  // final referStudent =
+  //     FirebaseFirestore.instance.collection('users').doc('aadh').toString();
+  // print(referStudent);
   DocumentSnapshot<Map<String, dynamic>> firebaseData =
       await firebaseOps.getStudentInfo();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

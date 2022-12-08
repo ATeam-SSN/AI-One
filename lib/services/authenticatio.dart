@@ -19,14 +19,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    void SetTimeTable() {
-      final referStudent = FirebaseFirestore.instance.collection('users');
-      referStudent.doc("aadh").set({
-        "timtable": GetTimeTable(Provider.of<Student>(context).dept,
-            Provider.of<Student>(context).section)
-      }, SetOptions(merge: true));
-    }
-
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -42,7 +34,6 @@ class _MainPageState extends State<MainPage> {
           }
           if (snapshot.hasData) {
             print("Login Successful");
-            SetTimeTable();
             return home_screeen();
           } else {
             return LoginScreen();

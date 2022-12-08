@@ -91,7 +91,7 @@ class _home_screeenState extends State<home_screeen> {
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
-      print(Provider.of<Student>(context).attendance['1']['attended']);
+      // print(Provider.of<Student>(context).attendance['1']['attended']);
       for (var sub in Provider.of<Student>(context).attendance.keys) {
         i += 1;
         percent += Provider.of<Student>(context).attendance[sub]['attended'] /
