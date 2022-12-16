@@ -5,6 +5,7 @@ import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ssn_qos/screens/signup_screen.dart';
+import 'package:ssn_qos/services/authenticatio.dart';
 import 'package:ssn_qos/services/utils.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -180,6 +181,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: nameController.text.trim(),
           password: passwordController.text.trim());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SafeArea(top: true, child: MainPage())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

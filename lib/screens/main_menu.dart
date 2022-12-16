@@ -18,11 +18,11 @@ import 'package:provider/provider.dart';
 import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/GetReminder.dart';
 import 'package:ssn_qos/screens/displayTask.dart';
+import 'package:ssn_qos/screens/nutrition_screen.dart';
 import 'package:ssn_qos/screens/sample.dart';
 import 'package:ssn_qos/screens/timeTable.dart';
 import 'package:ssn_qos/screens/updateAttendance.dart';
 import 'package:ssn_qos/widgets/NextPeriod.dart';
-
 import 'package:ssn_qos/widgets/ReminderCard.dart';
 
 import 'package:ssn_qos/widgets/attendance_bar.dart';
@@ -34,6 +34,15 @@ import 'package:intl/intl.dart';
 import 'package:ssn_qos/widgets/task.dart';
 
 var notification = true;
+var tips;
+var tipno = "1";
+void getTipOfTheDay() async {
+  final referStudent = FirebaseFirestore.instance.collection('HealthTips');
+  print(referStudent.doc(DateFormat('EEEE').format(DateTime.now())).get());
+  tips =
+      await referStudent.doc(DateFormat('EEEE').format(DateTime.now())).get();
+  // print(tip.toString());
+}
 
 class home_screeen extends StatefulWidget {
   late double percentage = 0;
@@ -59,7 +68,7 @@ class _home_screeenState extends State<home_screeen> {
     "Total Attendance",
     "Upcoming Class",
     "Reminder",
-    "Notification",
+    "Tip of the day",
   ];
 
   @override
@@ -91,7 +100,7 @@ class _home_screeenState extends State<home_screeen> {
     double AvgPercentage() {
       late double percent = 0;
       int i = 0;
-      print(Provider.of<Student>(context).attendance['1']['attended']);
+      // print(Provider.of<Student>(context).attendance['1']['attended']);
       for (var sub in Provider.of<Student>(context).attendance.keys) {
         i += 1;
         percent += Provider.of<Student>(context).attendance[sub]['attended'] /
@@ -137,6 +146,12 @@ class _home_screeenState extends State<home_screeen> {
       return " -- -- ";
     }
 
+    Map<String, dynamic> healthTip() {
+      return tips.get("1");
+    }
+
+    getTipOfTheDay();
+    print(tips.get("1"));
     SidebarXItem logout = SidebarXItem(
       icon: Icons.logout_rounded,
       label: 'Log out',
@@ -160,6 +175,11 @@ class _home_screeenState extends State<home_screeen> {
         date: id != 0 ? _taskController.tasksList[id - 1].date : "-----",
         time: id != 0 ? _taskController.tasksList[id - 1].startTime : "-----",
       ),
+      Container(
+        color: Colors.amber,
+        height: 99,
+        width: MediaQuery.of(context).size.width - 20,
+      ),
       Icon(
         Icons.notifications_on,
         size: 50,
@@ -175,9 +195,17 @@ class _home_screeenState extends State<home_screeen> {
       ),
       TimeTableScreen(),
       Reminder(),
-      UpdateAttendance()
+      NutritionScreen(
+        healthTip: tipno,
+      )
+      // UpdateAttendance()
     ];
     // final user = FirebaseAuth.instance.currentUser!;
+    print("Tip of the day");
+    // var tip = tips.get(1);
+    // for (var no in tips.keys()) {
+    //   print(tips.get(no));
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -279,24 +307,43 @@ class _home_screeenState extends State<home_screeen> {
                                       BorderRadius.all(Radius.circular(15)),
                                   child: InkWell(
                                     splashColor: Colors.black26,
-                                    child: Center(
-                                        child: Column(
+                                    child: Row(
                                       children: [
-                                        SizedBox(
-                                          height: 15,
+                                        Container(
+                                          height: double.infinity,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              250,
+                                          child: Image.network(
+                                            tips.get('1')['img'],
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                        Text(
-                                          caption[index],
-                                          style: AppThemes().CaptionStyle,
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                        ),
-                                        notification
-                                            ? tiles[index]
-                                            : tiles[index + 1],
+                                        Flexible(
+                                            child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      caption[index],
+                                                      style: AppThemes()
+                                                          .CaptionStyle,
+                                                    ),
+                                                    Container(
+                                                        height: 120,
+                                                        child: Center(
+                                                          child: Text(
+                                                            tips.get(
+                                                                '1')['desc'],
+                                                            style: AppThemes()
+                                                                .TipStyle,
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ))),
                                       ],
-                                    )),
+                                    ),
                                     onLongPress: () {
                                       if (notification) {
                                         setState(() {

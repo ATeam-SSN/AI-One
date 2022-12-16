@@ -7,6 +7,7 @@ import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/attendance_tile.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:ssn_qos/screens/timeTable.dart';
+import 'package:sliding_switch/sliding_switch.dart';
 
 final divider = Divider(color: white.withOpacity(0.5), height: 2);
 
@@ -119,8 +120,18 @@ class _TopDrawerState extends State<TopDrawer> {
                 MaterialPageRoute(builder: (context) => TimeTableScreen()));
           },
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.notifications_rounded,
+          // iconWidget: SlidingSwitch(
+          //   value: false,
+          //   width: 250,
+          //   onChanged: (bool value) {
+          //     print(value);
+          //   },
+          //   onDoubleTap: () {},
+          //   onSwipe: () {},
+          //   onTap: () {},
+          // ),
           label: 'Reminder',
         ),
         widget.logout,

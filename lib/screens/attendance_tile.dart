@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/screens/blank_template.dart';
+import 'package:ssn_qos/screens/updateAttendance.dart';
 import 'package:ssn_qos/widgets/attendance_bar.dart';
 
 class attendance_tile_screen extends StatefulWidget {
@@ -43,7 +44,29 @@ class _attendance_tile_screenState extends State<attendance_tile_screen> {
                 SizedBox(
                   height: 30,
                 ),
-                IndividualCourse()
+                IndividualCourse(),
+                // SizedBox(
+                //   height: 150,
+                // ),
+                Container(
+                  height: 90,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: top_bar_color,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25.0),
+                          topRight: Radius.circular(25.0))),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_upward_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SafeArea(
+                                  top: true, child: UpdateAttendance())));
+                    },
+                  ),
+                )
               ],
             ),
           ),

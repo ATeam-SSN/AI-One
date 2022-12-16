@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ssn_qos/accentColors/main_screen_colors.dart';
 import 'package:ssn_qos/app_themes.dart';
+import 'package:ssn_qos/models/student.dart';
 import 'package:ssn_qos/screens/login_screen.dart';
 import 'package:ssn_qos/screens/main_menu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -251,6 +254,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (emailController.text != null &&
                                   passwordController.text != null) {
                                 SignUp();
+                                SetTimeTable();
+                                SetDetails();
+                                print("done");
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.success,
+                                  animType: AnimType.rightSlide,
+                                  title: 'Registration Succesful',
+                                  btnOkOnPress: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SafeArea(
+                                                top: true,
+                                                child: LoginScreen())));
+                                  },
+                                )..show();
                               } else {}
                             },
                           )),
@@ -288,6 +308,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  void SetDetails() {
+    final referStudent = FirebaseFirestore.instance.collection('users');
+    referStudent.doc("aadh").set({
+      "fname": nameController.text,
+      "section": "A",
+      "dept": dropdownvalue,
+      "attd": Getattendance("BTech IT", "A"),
+    }, SetOptions(merge: true));
+  }
+
+  void SetTimeTable() {
+    final referStudent = FirebaseFirestore.instance.collection('users');
+    referStudent.doc("aadh").set({"timtable": GetTimeTable(dropdownvalue, "A")},
+        SetOptions(merge: true));
+  }
+
   Future SignUp() async {
     try {
       print(emailController.text);
@@ -296,21 +332,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(
               email: emailController.toString().trim(),
               password: passwordController.toString().trim());
+
       print(emailController.text);
+
       // ignore: avoid_single_cascade_in_expression_statements
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.success,
-        animType: AnimType.rightSlide,
-        title: 'Registration Succesful',
-        btnOkOnPress: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      SafeArea(top: true, child: LoginScreen())));
-        },
-      )..show();
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
